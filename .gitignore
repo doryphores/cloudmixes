@@ -1,3 +1,4 @@
 node_modules
 elm-stuff
-public/main.js
+public/app.js
+public/app.css
