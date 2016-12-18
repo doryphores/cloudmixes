@@ -1,0 +1,15 @@
+{
+  "name": "cloudmixes",
+  "version": "0.0.1",
+  "description": "Browse and listen to your Soundcloud mixes",
+  "author": "Martin Laine <martin.laine@gmail.com>",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "watch": "chokidar 'src/**/*.elm' --initial -c 'elm make src/Main.elm --output public/main.js'"
+  },
+  "devDependencies": {
+    "chokidar-cli": "^1.2.0",
+    "elm": "^0.18.0"
+  }
+}
