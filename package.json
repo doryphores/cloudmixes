@@ -7,8 +7,10 @@
   "main": "index.js",
   "scripts": {
     "start": "electron -i .",
-    "watch-js": "babel src --watch --out-dir app",
-    "watch-css": "node-sass --watch src/scss --output public"
+    "build-js": "babel src --out-dir app",
+    "watch-js": "babel src --source-maps --watch --out-dir app",
+    "build-css": "node-sass src/scss --output app",
+    "watch-css": "node-sass --source-map app --watch src/scss --output app"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
