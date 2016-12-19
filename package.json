@@ -6,13 +6,12 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "watch-all": "yarn run watch-js & yarn run watch-css",
-    "watch-js": "chokidar 'src/**/*.elm' --initial -c 'elm make src/Main.elm --output public/app.js'",
-    "watch-css": "node-sass --watch scss --output public"
+    "watch-all": "yarn run watch-css",
+    "watch-css": "node-sass --watch src/scss --output public"
   },
   "devDependencies": {
     "chokidar-cli": "^1.2.0",
-    "elm": "^0.18.0",
-    "node-sass": "^4.0.0"
+    "node-sass": "^4.0.0",
+    "soundcloud": "^3.1.2"
   }
 }
