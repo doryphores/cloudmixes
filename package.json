@@ -6,12 +6,31 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "watch-all": "yarn run watch-css",
+    "start": "electron -i .",
+    "watch-js": "babel src --watch --out-dir app",
     "watch-css": "node-sass --watch src/scss --output public"
   },
   "devDependencies": {
-    "chokidar-cli": "^1.2.0",
-    "node-sass": "^4.0.0",
+    "babel-cli": "^6.18.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.18.0",
+    "babel-preset-es2016": "^6.16.0",
+    "babel-preset-react": "^6.16.0",
+    "electron-prebuilt": "^1.4.12",
+    "node-sass": "^4.0.0"
+  },
+  "dependencies": {
+    "menubar": "^5.1.0",
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1",
     "soundcloud": "^3.1.2"
+  },
+  "babel": {
+    "presets": [
+      "es2016",
+      "react"
+    ],
+    "plugins": [
+      "transform-es2015-modules-commonjs"
+    ]
   }
 }
