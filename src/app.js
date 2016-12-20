@@ -22,13 +22,13 @@ const scInterface = (store) => (next) => (action) => {
   return next(action);
 }
 
-const store = configureStore({}, scInterface);
-
 export function start(container) {
-  ReactDOM.render(
-    <Provider store={store}>
-      <App />
-    </Provider>,
-    container
-  );
+  configureStore(scInterface).then((store) => {
+    ReactDOM.render(
+      <Provider store={store}>
+        <App />
+      </Provider>,
+      container
+    );
+  });
 }

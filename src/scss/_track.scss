@@ -1,0 +1,59 @@
+.track {
+  position: relative;
+  margin-top: 10px;
+
+  + .track {
+    padding-top: 10px;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0px;
+      left: 60px;
+      right: 0;
+      height: 1px;
+      background-color: #eee;
+    }
+  }
+}
+
+.track__artwork {
+  overflow: hidden;
+  border-radius: 50%;
+  border: 1px solid #eee;
+
+  img {
+    display: block;
+    width: 50px;
+    height: 50px;
+  }
+}
+
+.track__meta {
+  width: calc(100% - 50px);
+}
+
+.track__meta-item {
+  display: block;
+  padding-left: 10px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  line-height: 25px;
+}
+
+.track__title {
+  width: 100%;
+}
+
+.track__duration {
+  float: right;
+  padding-left: 0;
+  font-size: 14px;
+  color: rgba(#000, .54);
+}
+
+.track__artist {
+  font-size: 14px;
+  color: rgba(#000, .54);
+}
