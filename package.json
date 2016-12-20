@@ -6,7 +6,7 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "start": "electron -i .",
+    "start": "electron --enable-transparent-visuals --disable-gpu .",
     "build-js": "babel src --out-dir app",
     "watch-js": "babel src --source-maps --watch --out-dir app",
     "build-css": "node-sass src/scss --output app",
