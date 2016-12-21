@@ -1,28 +1,15 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
-import { refreshTracks } from '../actions';
-
+import Toolbar from './toolbar';
 import TrackList from './track_list';
+import Player from './player';
 
 const App = ({ tracks, onRefreshClick }) => (
   <div className="u-flex u-flex--full u-flex--vertical">
-    <header className="u-flex__panel u-flex u-flex--horizontal toolbar">
-      <h1 className="u-flex__panel u-flex__panel--grow">Cloud mixes</h1>
-      <button onClick={onRefreshClick}>Refresh</button>
-    </header>
-    <TrackList tracks={tracks} className="u-flex__panel u-flex__panel--grow" />
+    <Toolbar className="u-flex__panel" />
+    <TrackList className="u-flex__panel u-flex__panel--grow" />
+    <Player className="u-flex__panel" />
   </div>
 );
 
-function mapStateToProps(state) {
-  return { tracks: state.tracks };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    onRefreshClick: () => dispatch(refreshTracks())
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

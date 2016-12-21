@@ -1,9 +1,10 @@
 import React from 'react';
 import moment from 'moment';
 
-const Track = ({ track }) => (
+const Track = ({ track, onSelect }) => (
   <div className="track-list__item track u-flex u-flex--horizontal">
-    <div className="track__artwork u-flex__panel">
+    <div className="track__artwork u-flex__panel"
+      onClick={() => onSelect(track.id)}>
       <img src={track.artwork_url} />
     </div>
     <div className="track__meta u-flex__panel u-flex__panel--grow">

@@ -38,7 +38,8 @@ export default class SoundCloud {
     });
   }
 
-  stream(track_id) {
-    return SC.stream(`/tracks/${track_id}`);
+  loadTrack(trackID) {
+    console.log('loading')
+    return SC.stream(`/tracks/${trackID}`);
   }
 }
