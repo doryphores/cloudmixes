@@ -1,5 +1,6 @@
 import React from 'react';
-import moment from 'moment';
+
+import { formatDuration } from '../utils';
 
 const Track = ({ track, onSelect }) => (
   <div className="track-list__item track u-flex u-flex--horizontal">
@@ -10,15 +11,11 @@ const Track = ({ track, onSelect }) => (
     <div className="track__meta u-flex__panel u-flex__panel--grow">
       <span className="track__meta-item track__title">{track.title}</span>
       <span className="track__meta-item track__duration">
-        {displayDuration(track.duration)}
+        {formatDuration(track.duration)}
       </span>
       <span className="track__meta-item track__artist">{track.username}</span>
     </div>
   </div>
 );
-
-function displayDuration(duration) {
-  return moment.duration(duration).humanize();
-}
 
 export default Track;
