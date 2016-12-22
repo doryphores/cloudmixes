@@ -1,38 +1,79 @@
 .track-list {
   overflow: auto;
-  padding-left: 10px;
-  padding-right: 10px;
-  margin-right: 10px;
+  border-top: 1px solid #eee;
 }
 
 .track {
   position: relative;
-  margin-top: 10px;
+  padding: 10px;
+  width: auto;
 
-  + .track {
-    padding-top: 10px;
+  &:hover {
+    background-color: #fafafa;
+  }
 
-    &::before {
-      content: "";
-      position: absolute;
-      top: 0px;
-      left: 50px;
-      right: 0;
-      height: 1px;
-      background-color: #eee;
-    }
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 60px;
+    right: 10px;
+    height: 1px;
+    background-color: #eee;
+  }
+
+  &:first-child::before {
+    display: none;
+  }
+
+  &:hover::before,
+  &:hover + .track::before {
+    left: 0;
+    right: 0;
+  }
+}
+
+.track__button {
+  position: relative;
+  overflow: hidden;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  border-radius: 50%;
+  border: 1px solid #eee;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ff9100;
+  }
+
+  &:active {
+    background-color: #ff6d00;
   }
 }
 
 .track__artwork {
-  overflow: hidden;
-  border-radius: 50%;
-  border: 1px solid #eee;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: block;
 
-  img {
+  .track__button:hover & {
+    display: none;
+  }
+}
+
+.track__button-icon {
+  position: relative;
+  z-index: 3;
+  display: none;
+  line-height: 40px;
+
+  .track__button:hover & {
     display: block;
-    width: 40px;
-    height: 40px;
   }
 }
 
