@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 
-import refreshTracks from '../actions';
+import { REFRESH_TRACKS } from '../actions';
 
 const Toolbar = ({ onRefreshClick, className }) => (
   <header className={classnames("toolbar u-flex u-flex--horizontal", className)}>
@@ -19,7 +19,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onRefreshClick: () => dispatch(refreshTracks())
+    onRefreshClick: () => dispatch({ type: REFRESH_TRACKS })
   };
 }
 

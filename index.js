@@ -4,8 +4,8 @@ const mb = menubar({
   dir: process.cwd() + '/app',
   transparent: true,
   skipTaskbar: true,
-  width: 600,
-  height: 600
+  width: 500,
+  height: 400
 });
 
 mb.on('ready', () => {

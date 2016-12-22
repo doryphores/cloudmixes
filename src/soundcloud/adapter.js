@@ -1,8 +1,6 @@
 import * as Actions from '../actions';
 import API from './api';
 
-let player;
-
 const api = new API();
 
 export const middleware = (store) => (next) => (action) => {
