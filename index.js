@@ -26,8 +26,8 @@ const contextMenu = Menu.buildFromTemplate([
 mb.on('ready', () => {
   globalShortcut.register('MediaPlayPause', () => {
     mb.window.webContents.send('togglePlay');
-  }));
-  
+  });
+
   mb.tray.setContextMenu(contextMenu);
 
   mb.app.on('will-quit', () => {
