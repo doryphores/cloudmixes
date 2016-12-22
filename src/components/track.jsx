@@ -6,8 +6,7 @@ const Track = ({ track, onSelect }) => (
   <div className="track-list__item track u-flex u-flex--horizontal">
     <div className="track__button  u-flex__panel"
       onClick={() => onSelect(track.id)}>
-      <span className="track__artwork"
-        style={{ backgroundImage: `url(${track.artwork_url})` }} />
+      <span className="track__artwork" style={artworkStyles(track.artwork_url)} />
       <i className="material-icons md-24 track__button-icon">play_arrow</i>
     </div>
     <div className="track__meta u-flex__panel u-flex__panel--grow">
@@ -19,5 +18,9 @@ const Track = ({ track, onSelect }) => (
     </div>
   </div>
 );
+
+function artworkStyles(artworkURL) {
+  return artworkURL ? { backgroundImage: `url(${artworkURL})` } : {};
+}
 
 export default Track;
