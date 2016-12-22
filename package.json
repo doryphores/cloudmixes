@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "postinstall": "cd app && yarn install",
-    "package": "electron-packager app --out dist --overwrite --asar",
+    "package": "yarn run build-js && yarn run build-css && electron-packager app --out dist --overwrite",
     "start": "electron --enable-transparent-visuals --disable-gpu app",
     "build-js": "babel src --out-dir app/js",
     "watch-js": "babel src --source-maps --watch --out-dir app/js",
