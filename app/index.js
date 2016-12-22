@@ -2,7 +2,7 @@ const menubar = require('menubar');
 const { Menu, globalShortcut } = require('electron');
 
 const mb = menubar({
-  dir: process.cwd() + '/app',
+  dir: __dirname,
   transparent: true,
   skipTaskbar: true,
   width: 500,
