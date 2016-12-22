@@ -4,6 +4,8 @@ const path = require('path');
 let tray, win;
 
 app.on('ready', () => {
+  if (app.dock) app.dock.hide();
+  
   tray = new Tray(path.join(__dirname, 'IconTemplate.png'));
   tray.setToolTip(app.getName());
   tray.on('click', () => {
