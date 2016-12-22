@@ -3,25 +3,50 @@
   margin-top: 10px;
   border-top: 1px solid #eee;
   background-color: #fafafa;
-  align-items: center;
 }
 
 .player__control {
-  width: 44px;
-  height: 44px;
+  position: relative;
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+  margin: 10px 10px 10px 0;
   border-radius: 50%;
-  background-color: #ff9800;
   text-align: center;
+  background-color: #ffab40;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ff9100;
+  }
+
+  &:active {
+    background-color: #ff6d00;
+  }
 
   i {
-    line-height: 44px;
+    line-height: 50px;
   }
+}
+
+.player__meta {
+  width: calc(100% - 60px);
+}
+
+.player__title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100%;
+  border-bottom: 1px solid #eee;
+  font-size: 12px;
+  line-height: 20px;
 }
 
 .player__scrubber {
   position: relative;
-  margin-left: 10px;
   height: 40px;
+  margin: 5px 0;
   background-color: #ffe0b2;
   background-repeat: no-repeat;
   background-image: linear-gradient(#ff9800, #ff9800);

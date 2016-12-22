@@ -29,6 +29,7 @@ body {
   left: 0;
   overflow: hidden;
   border-radius: 2px;
+  border: 1px solid #eee;
   background-color: #fff;
 }
 
@@ -40,13 +41,6 @@ body {
     font-weight: 500;
     font-size: 20px;
   }
-}
-
-.track-list {
-  overflow: auto;
-  padding-left: 10px;
-  padding-right: 10px;
-  margin-right: 10px;
 }
 
 ::-webkit-scrollbar {

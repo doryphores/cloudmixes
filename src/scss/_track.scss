@@ -1,3 +1,10 @@
+.track-list {
+  overflow: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-right: 10px;
+}
+
 .track {
   position: relative;
   margin-top: 10px;
@@ -9,7 +16,7 @@
       content: "";
       position: absolute;
       top: 0px;
-      left: 60px;
+      left: 50px;
       right: 0;
       height: 1px;
       background-color: #eee;
@@ -24,13 +31,13 @@
 
   img {
     display: block;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
   }
 }
 
 .track__meta {
-  width: calc(100% - 50px);
+  width: calc(100% - 40px);
 }
 
 .track__meta-item {
@@ -39,21 +46,22 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  line-height: 25px;
+  line-height: 20px;
 }
 
 .track__title {
   width: 100%;
+  font-size: 14px;
 }
 
 .track__duration {
   float: right;
   padding-left: 0;
-  font-size: 14px;
+  font-size: 12px;
   color: rgba(#000, .54);
 }
 
 .track__artist {
-  font-size: 14px;
+  font-size: 12px;
   color: rgba(#000, .54);
 }

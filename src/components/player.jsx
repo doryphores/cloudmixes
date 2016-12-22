@@ -8,23 +8,28 @@ import { PLAY, PAUSE } from '../actions';
 const Player = ({ onPlay, onPause, playing, progress, track, className }) => {
   if (!track) return null;
   return (
-    <div className={classnames('player u-flex u-flex--horizontal', className)}>
+    <div className={classnames("player u-flex u-flex--horizontal", className)}>
       <div className="player__control u-flex__panel"
         onClick={playing ? onPause : onPlay}>
-        <i className="material-icons md-24">
+        <i className="material-icons md-36">
           {playing ? "pause" : "play_arrow"}
         </i>
       </div>
-      <div className="player__scrubber u-flex__panel u-flex__panel--grow"
-        style={{ backgroundSize: `${progress * 100}% 100%` }}>
-        <span className="player__scrubber-mask"
-          style={{ WebkitMaskBoxImage: `url(${track.waveform_url})` }} />
-        <span className="player__progress">
-          {formatDuration(track.duration * progress)}
-        </span>
-        <span className="player__duration">
-          {formatDuration(track.duration)}
-        </span>
+      <div className="player__meta u-flex__panel u-flex__panel--grow u-flex u-flex--vertical">
+        <div className="player__title u-flex__panel">
+          {track.title}
+        </div>
+        <div className="player__scrubber u-flex__panel u-flex__panel u-flex__panel--grow"
+          style={{ backgroundSize: `${progress * 100}% 100%` }}>
+          <span className="player__scrubber-mask"
+            style={{ WebkitMaskBoxImage: `url(${track.waveform_url})` }} />
+          <span className="player__progress">
+            {formatDuration(track.duration * progress)}
+          </span>
+          <span className="player__duration">
+            {formatDuration(track.duration)}
+          </span>
+        </div>
       </div>
     </div>
   );
