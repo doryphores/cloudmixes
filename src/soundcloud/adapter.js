@@ -22,6 +22,10 @@ export const middleware = (store) => (next) => (action) => {
       api.pause();
       return next(action);
       break;
+    case Actions.SEEK:
+      api.seek(action.payload);
+      return next(action);
+      break;
     default:
       return next(action);
   }

@@ -6,6 +6,7 @@ export const LOAD_TRACKS = 'LOAD_TRACKS';
 export const SELECT_TRACK = 'SELECT_TRACK';
 export const PLAY = 'PLAY';
 export const PAUSE = 'PAUSE';
+export const SEEK = 'SEEK';
 
 export const PLAYER_TIME_CHANGED = 'PLAYER_TIME_CHANGED';
 export const PLAYER_STATE_CHANGED = 'PLAYER_STATE_CHANGED';

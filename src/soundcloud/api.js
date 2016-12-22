@@ -65,4 +65,8 @@ export default class API extends EventEmitter {
   pause() {
     this.player.pause();
   }
+
+  seek(time) {
+    if (this.player) this.player.seek(time);
+  }
 }

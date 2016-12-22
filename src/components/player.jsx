@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 
 import { formatDuration } from '../utils';
-import { PLAY, PAUSE } from '../actions';
+import { PLAY, PAUSE, SEEK } from '../actions';
+import Scrubber from './scrubber';
 
-const Player = ({ onPlay, onPause, playing, progress, track, className }) => {
+const Player = ({ onPlay, onPause, onSeek, playing, progress, track, className }) => {
   if (!track) return null;
   return (
     <div className={classnames("player u-flex u-flex--horizontal", className)}>
@@ -19,17 +20,16 @@ const Player = ({ onPlay, onPause, playing, progress, track, className }) => {
         <div className="player__title u-flex__panel">
           {track.title}
         </div>
-        <div className="player__scrubber u-flex__panel u-flex__panel u-flex__panel--grow"
-          style={{ backgroundSize: `${progress * 100}% 100%` }}>
+        <Scrubber className="player__scrubber u-flex__panel u-flex__panel u-flex__panel--grow"
+          progress={progress}
+          duration={track.duration}
+          onSeek={onSeek}>
           <span className="player__scrubber-mask"
             style={{ WebkitMaskBoxImage: `url(${track.waveform_url})` }} />
-          <span className="player__progress">
-            {formatDuration(track.duration * progress)}
-          </span>
           <span className="player__duration">
             {formatDuration(track.duration)}
           </span>
-        </div>
+        </Scrubber>
       </div>
     </div>
   );
@@ -66,7 +66,8 @@ function findTrack(tracks, id) {
 function mapDispatchToProps(dispatch) {
   return {
     onPlay: () => dispatch({ type: PLAY }),
-    onPause: () => dispatch({ type: PAUSE })
+    onPause: () => dispatch({ type: PAUSE }),
+    onSeek: (time) => dispatch({ type: SEEK, payload: time })
   };
 }
 
