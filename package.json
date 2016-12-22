@@ -4,7 +4,6 @@
   "description": "Browse and listen to your Soundcloud mixes",
   "author": "Martin Laine <martin.laine@gmail.com>",
   "license": "MIT",
-  "main": "app/index.js",
   "scripts": {
     "start": "electron --enable-transparent-visuals --disable-gpu app",
     "build-js": "babel src --out-dir app/js",
@@ -12,7 +11,7 @@
     "build-css": "node-sass src/scss --output app/css",
     "watch-css": "node-sass --source-map app/css --watch src/scss --output app/css"
   },
-  "devDependencies": {
+  "dependencies": {
     "babel-cli": "^6.18.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.18.0",
     "babel-preset-es2016": "^6.16.0",
@@ -20,17 +19,6 @@
     "chokidar": "^1.6.1",
     "electron-prebuilt": "^1.4.12",
     "node-sass": "^4.0.0"
-  },
-  "dependencies": {
-    "classnames": "^2.2.5",
-    "format-duration": "^1.0.0",
-    "fs-extra": "^1.0.0",
-    "menubar": "^5.1.0",
-    "react": "^15.4.1",
-    "react-dom": "^15.4.1",
-    "react-redux": "^5.0.1",
-    "redux": "^3.6.0",
-    "soundcloud": "^3.1.2"
   },
   "babel": {
     "presets": [
