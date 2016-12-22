@@ -1,24 +1,23 @@
 const { app, BrowserWindow, Tray, Menu, globalShortcut } = require('electron');
+const Positioner = require('electron-positioner');
 const path = require('path');
 
-let tray, win;
+let tray, win, positioner;
 
 app.on('ready', () => {
+  // MacOS: Hide the dock icon
   if (app.dock) app.dock.hide();
-  
+
+  // ========================================================
+  // Tray setup
+
   tray = new Tray(path.join(__dirname, 'IconTemplate.png'));
   tray.setToolTip(app.getName());
-  tray.on('click', () => {
-    toggleWindow();
-  });
+  tray.on('click', toggleWindow);
+  tray.on('right-click', () => tray.popUpContextMenu(contextMenu));
 
-  tray.on('right-click', () => {
-    tray.popUpContextMenu(contextMenu);
-  });
-
-  globalShortcut.register('MediaPlayPause', () => {
-    win.webContents.send('togglePlay');
-  });
+  // ========================================================
+  // Window setup
 
   win = new BrowserWindow({
     width: 500,
@@ -30,38 +29,54 @@ app.on('ready', () => {
     show: false
   });
 
-  win.once('ready-to-show', () => {
-    win.show();
+  positioner = new Positioner(win);
+
+  win.once('ready-to-show', showWindow);
+
+  win.on('blur', () => {
+    if (win.webContents.isDevToolsOpened()) return;
+    win.hide()
   });
 
   win.loadURL(`file://${path.join(__dirname, 'index.html')}`);
 
-  win.on('blur', () => {
-    win.hide();
+  // ========================================================
+  // Global shortcuts
+
+  app.on('will-quit', () => globalShortcut.unregisterAll());
+
+  globalShortcut.register('MediaPlayPause', () => {
+    win.webContents.send('togglePlay');
   });
 });
 
-app.on('will-quit', () => {
-  globalShortcut.unregisterAll();
-});
 
-function toggleWindow() {
-  if (win.isVisible()) {
-    win.hide();
-  } else {
-    win.show();
-  }
-}
+// ==========================================================
+// Tray context menu
 
 const contextMenu = Menu.buildFromTemplate([
   {
     label: 'Refresh',
     click: () => mb.window.webContents.send('refresh')
   },
-  {
-    type: 'separator'
-  },
-  {
-    role: 'quit'
-  }
+  { type: 'separator' },
+  { role: 'quit' }
 ]);
+
+
+// ==========================================================
+// Helpers
+
+function showWindow() {
+  let { x, y } = {
+    darwin: () => positioner.calculate('trayCenter', tray.getBounds()),
+    win32:  () => positioner.calculate('trayBottomCenter', tray.getBounds()),
+    linux:  () => positioner.calculate('topRight')
+  }[process.platform]();
+  win.setPosition(x, y);
+  win.show();
+}
+
+function toggleWindow() {
+  win.isVisible() ? win.hide() : showWindow();
+}

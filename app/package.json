@@ -8,6 +8,7 @@
   "main": "index.js",
   "dependencies": {
     "classnames": "^2.2.5",
+    "electron-positioner": "^3.0.0",
     "format-duration": "^1.0.0",
     "fs-extra": "^1.0.0",
     "react": "^15.4.1",
