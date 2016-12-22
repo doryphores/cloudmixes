@@ -21,7 +21,7 @@ export function configureStore(...middleware) {
         );
 
         window.addEventListener('beforeunload', () => {
-          outputJSONSync(CACHE_PATH, store.getState()));
+          outputJSONSync(CACHE_PATH, store.getState());
         });
 
         resolve(store);
