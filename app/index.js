@@ -14,7 +14,12 @@ app.on('ready', () => {
   tray = new Tray(path.join(__dirname, 'IconTemplate.png'));
   tray.setToolTip(app.getName());
   tray.on('click', toggleWindow);
-  tray.on('right-click', () => tray.popUpContextMenu(contextMenu));
+
+  if (process.platform == 'linux') {
+    tray.setContextMenu(contextMenu);
+  } else {
+    tray.on('right-click', () => tray.popUpContextMenu(contextMenu));
+  }
 
   // ========================================================
   // Window setup
