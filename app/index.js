@@ -1,14 +1,52 @@
-const menubar = require('menubar');
-const { Menu, globalShortcut } = require('electron');
+const { app, BrowserWindow, Tray, Menu, globalShortcut } = require('electron');
+const path = require('path');
 
-const mb = menubar({
-  dir: __dirname,
-  transparent: true,
-  skipTaskbar: true,
-  width: 500,
-  height: 400,
-  tooltip: 'Cloud mixes'
+let tray, win;
+
+app.on('ready', () => {
+  tray = new Tray(path.join(__dirname, 'IconTemplate.png'));
+  tray.setContextMenu(contextMenu);
+  tray.setToolTip(app.getName());
+  tray.on('click', () => {
+    toggleWindow();
+  });
+
+  globalShortcut.register('MediaPlayPause', () => {
+    win.webContents.send('togglePlay');
+  });
+
+  win = new BrowserWindow({
+    width: 500,
+    height: 400,
+    skipTaskbar: true,
+    transparent: true,
+    frame: false,
+    resizeable: false,
+    show: false
+  });
+
+  win.once('ready-to-show', () => {
+    win.show();
+  });
+
+  win.loadURL(`file://${path.join(__dirname, 'index.html')}`);
+
+  win.on('blue', () => {
+    win.hide();
+  });
 });
+
+app.on('will-quit', () => {
+  globalShortcut.unregisterAll();
+});
+
+function toggleWindow() {
+  if (win.isVisible()) {
+    win.hide();
+  } else {
+    win.show();
+  }
+}
 
 const contextMenu = Menu.buildFromTemplate([
   {
@@ -22,17 +60,3 @@ const contextMenu = Menu.buildFromTemplate([
     role: 'quit'
   }
 ]);
-
-mb.on('ready', () => {
-  globalShortcut.register('MediaPlayPause', () => {
-    mb.window.webContents.send('togglePlay');
-  });
-
-  mb.tray.setContextMenu(contextMenu);
-
-  mb.app.on('will-quit', () => {
-    globalShortcut.unregisterAll();
-  });
-
-  mb.showWindow();
-});
