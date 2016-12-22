@@ -5,10 +5,13 @@ let tray, win;
 
 app.on('ready', () => {
   tray = new Tray(path.join(__dirname, 'IconTemplate.png'));
-  tray.setContextMenu(contextMenu);
   tray.setToolTip(app.getName());
   tray.on('click', () => {
     toggleWindow();
+  });
+
+  tray.on('right-click', () => {
+    tray.popUpContextMenu(contextMenu);
   });
 
   globalShortcut.register('MediaPlayPause', () => {
@@ -31,7 +34,7 @@ app.on('ready', () => {
 
   win.loadURL(`file://${path.join(__dirname, 'index.html')}`);
 
-  win.on('blue', () => {
+  win.on('blur', () => {
     win.hide();
   });
 });
