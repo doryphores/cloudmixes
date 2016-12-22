@@ -3,15 +3,16 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 
 import { formatDuration } from '../utils';
-import { togglePlay } from '../actions';
+import { PLAY, PAUSE } from '../actions';
 
-const Player = ({ onTogglePlay, paused = false, progress = 0, track, className }) => {
+const Player = ({ onPlay, onPause, playing, progress, track, className }) => {
   if (!track) return null;
   return (
     <div className={classnames('player u-flex u-flex--horizontal', className)}>
-      <div className="player__control u-flex__panel" onClick={onTogglePlay}>
+      <div className="player__control u-flex__panel"
+        onClick={playing ? onPause : onPlay}>
         <i className="material-icons md-24">
-          {paused ? "play_arrow" : "pause"}
+          {playing ? "pause" : "play_arrow"}
         </i>
       </div>
       <div className="player__scrubber u-flex__panel u-flex__panel--grow"
@@ -41,15 +42,15 @@ function mapStateToProps(state) {
   if (track) {
     return {
       track: track,
-      progress: state.player.currentTime / track.duration,
-      paused: state.player.paused
+      progress: (state.player.currentTime || 0) / track.duration,
+      playing: state.player.status == 'playing'
     };
   }
 
   return {
     track: null,
-    paused: false,
-    progress: 0
+    progress: 0,
+    playing: false
   }
 }
 
@@ -59,7 +60,8 @@ function findTrack(tracks, id) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onTogglePlay: () => dispatch(togglePlay())
+    onPlay: () => dispatch({ type: PLAY }),
+    onPause: () => dispatch({ type: PAUSE })
   };
 }
 

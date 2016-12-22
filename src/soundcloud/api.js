@@ -1,12 +1,12 @@
 import SC from 'soundcloud';
-import fs from 'fs-extra';
-import path from 'path';
+import EventEmitter from 'events';
 
 const USER_NAME = 'doryphores';
 const CLIENT_ID = '7eff5005846f8ac6bd32d417a55eb5d5';
 
-export default class SoundCloud {
+export default class API extends EventEmitter {
   constructor() {
+    super();
     SC.initialize({ client_id: CLIENT_ID });
   }
 
@@ -38,8 +38,31 @@ export default class SoundCloud {
     });
   }
 
-  loadTrack(trackID) {
-    console.log('loading')
-    return SC.stream(`/tracks/${trackID}`);
+  loadTrack(trackID, resumeFrom = 0) {
+    return SC.stream(`/tracks/${trackID}`).then(player => {
+      this.player = player;
+
+      player.on('time', () => this.emit('time', player.currentTime()));
+      player.on('state-change', (state) => this.emit('state-change', state));
+
+      if (resumeFrom) {
+        player.once('play-resume', () => {
+          player.seek(resumeFrom);
+        });
+      }
+
+      player.play();
+
+      return Promise.resolve();
+    });
+  }
+
+  play(trackID, resumeFrom) {
+    if (this.player) this.player.play();
+    else this.loadTrack(trackID, resumeFrom);
+  }
+
+  pause() {
+    this.player.pause();
   }
 }

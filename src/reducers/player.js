@@ -1,26 +1,30 @@
-import { SELECT_TRACK, TRACK_PROGRESS, PLAYER_STATE_CHANGED } from '../actions';
+import {
+  SELECT_TRACK, PLAYER_TIME_CHANGED, PLAYER_STATE_CHANGED
+} from '../actions';
 
 const initialState = {
   trackID: null,
   currentTime: 0,
-  paused: false
+  status: 'idle'
 };
 
 export function player(state = initialState, action) {
   switch (action.type) {
     case SELECT_TRACK:
+      if (state.trackID == action.payload) return state;
+      
       return {
         trackID: action.payload,
-        progress: 0,
-        paused: false
+        currentTime: 0,
+        status: 'idle'
       };
-    case TRACK_PROGRESS:
+    case PLAYER_TIME_CHANGED:
       return Object.assign({}, state, {
         currentTime: action.payload
       });
     case PLAYER_STATE_CHANGED:
       return Object.assign({}, state, {
-        paused: action.payload
+        status: action.payload
       });
     default:
       return state;

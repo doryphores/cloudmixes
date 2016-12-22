@@ -16,7 +16,7 @@ export function configureStore(...middleware) {
       try {
         let store = createStore(
           combineReducers(reducers),
-          data,
+          sanitizeInitialState(data),
           applyMiddleware(...middleware)
         );
 
@@ -28,4 +28,11 @@ export function configureStore(...middleware) {
       }
     });
   });
+}
+
+function sanitizeInitialState(state) {
+  if (state.player) {
+    state.player.status = 'idle';
+  }
+  return state;
 }
