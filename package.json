@@ -4,13 +4,13 @@
   "description": "Browse and listen to your Soundcloud mixes",
   "author": "Martin Laine <martin.laine@gmail.com>",
   "license": "MIT",
-  "main": "index.js",
+  "main": "app/index.js",
   "scripts": {
-    "start": "electron --enable-transparent-visuals --disable-gpu .",
-    "build-js": "babel src --out-dir app",
-    "watch-js": "babel src --source-maps --watch --out-dir app",
-    "build-css": "node-sass src/scss --output app",
-    "watch-css": "node-sass --source-map app --watch src/scss --output app"
+    "start": "electron --enable-transparent-visuals --disable-gpu app",
+    "build-js": "babel src --out-dir app/js",
+    "watch-js": "babel src --source-maps --watch --out-dir app/js",
+    "build-css": "node-sass src/scss --output app/css",
+    "watch-css": "node-sass --source-map app/css --watch src/scss --output app/css"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
