@@ -22,6 +22,11 @@ export const middleware = (store) => (next) => (action) => {
       api.pause();
       return next(action);
       break;
+    case Actions.TOGGLE_PLAY:
+      if (!store.getState().player.trackID) return;
+      if (store.getState().player.status == 'playing') store.dispatch({ type: Actions.PAUSE });
+      else store.dispatch({ type: Actions.PLAY });
+      break;
     case Actions.SEEK:
       api.seek(action.payload);
       return next(action);

@@ -1,5 +1,5 @@
 const menubar = require('menubar');
-const { Menu } = require('electron');
+const { Menu, globalShortcut } = require('electron');
 
 const mb = menubar({
   dir: process.cwd() + '/app',
@@ -12,11 +12,27 @@ const mb = menubar({
 
 const contextMenu = Menu.buildFromTemplate([
   {
+    label: 'Refresh',
+    click: () => mb.window.webContents.send('refresh')
+  },
+  {
+    type: 'separator'
+  },
+  {
     role: 'quit'
   }
 ]);
 
 mb.on('ready', () => {
+  globalShortcut.register('MediaPlayPause', () => {
+    mb.window.webContents.send('togglePlay');
+  }));
+  
   mb.tray.setContextMenu(contextMenu);
+
+  mb.app.on('will-quit', () => {
+    globalShortcut.unregisterAll();
+  });
+
   mb.showWindow();
 });

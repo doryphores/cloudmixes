@@ -4,6 +4,7 @@ export const REFRESH_TRACKS = 'REFRESH_TRACKS';
 export const LOAD_TRACKS = 'LOAD_TRACKS';
 
 export const SELECT_TRACK = 'SELECT_TRACK';
+export const TOGGLE_PLAY = 'TOGGLE_PLAY';
 export const PLAY = 'PLAY';
 export const PAUSE = 'PAUSE';
 export const SEEK = 'SEEK';
@@ -17,12 +18,6 @@ export function selectTrack(trackID) {
   return {
     type: SELECT_TRACK,
     payload: trackID
-  };
-}
-
-export function refreshTracks() {
-  return {
-    type: REFRESH_TRACKS
   };
 }
 
