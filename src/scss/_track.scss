@@ -1,5 +1,7 @@
 .track-list {
   overflow: auto;
+  position: relative;
+  z-index: 1;
 }
 
 .track {
@@ -32,6 +34,10 @@
       left: 0;
       right: 0;
     }
+  }
+
+  &.track--active {
+    background-color: #ffe0b2;
   }
 }
 

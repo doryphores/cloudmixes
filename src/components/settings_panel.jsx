@@ -41,7 +41,10 @@ class SettingsPanel extends React.Component {
     return (
       <div className={this.classNames()}>
         <header className="settings__header u-flex u-flex--horizontal">
-          <h1 className="u-flex__panel u-flex__panel--grow">Cloud mixes</h1>
+          <h1 className="u-flex__panel u-flex__panel--grow">
+            <i className="material-icons">cloud_circle</i>
+            Cloud mixes
+          </h1>
           <span className="settings__toggle material-icons"
             onClick={this.toggle.bind(this)}>
             settings
