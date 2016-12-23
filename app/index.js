@@ -62,7 +62,7 @@ app.on('ready', () => {
 const contextMenu = Menu.buildFromTemplate([
   {
     label: 'Refresh',
-    click: () => mb.window.webContents.send('refresh')
+    click: () => win.webContents.send('refresh')
   },
   { type: 'separator' },
   { role: 'quit' }
