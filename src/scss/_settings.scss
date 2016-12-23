@@ -1,0 +1,83 @@
+.settings__header {
+  position: relative;
+  z-index: 3;
+  padding: 10px;
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+
+  h1 {
+    margin: 0;
+    font-weight: 500;
+    font-size: 20px;
+  }
+}
+
+.settings__panel {
+  position: absolute;
+  z-index: 2;
+  top: 45px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 0;
+  justify-content: center;
+  align-items: center;
+  transform: translateY(-100%);
+  background-color: #fff;
+  transition: transform .2s;
+
+  .settings--open & {
+    transform: translateY(0);
+  }
+}
+
+.field {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 30px;
+}
+
+.field__label {
+  display: block;
+  font-size: 12px;
+  color: rgba(#000, .54);
+}
+
+.field__input {
+  width: 100%;
+  padding: 10px 0 4px;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: 18px;
+  border-bottom: 1px solid #eee;
+}
+
+.form-actions {
+  width: 100%;
+  max-width: 300px;
+}
+
+.button {
+  padding: 8px 10px;
+  border: none;
+  outline: none;
+  border-radius: 3px;
+  font-family: inherit;
+  font-size: 16px;
+  text-transform: uppercase;
+  font-weight: bold;
+  background-color: #ffab40;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ff9100;
+  }
+
+  &:active {
+    background-color: #ff6d00;
+  }
+}

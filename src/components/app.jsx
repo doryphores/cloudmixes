@@ -1,12 +1,12 @@
 import React from 'react';
 
-import Toolbar from './toolbar';
+import SettingsPanel from './settings_panel';
 import TrackList from './track_list';
 import Player from './player';
 
-const App = ({ tracks, onRefreshClick }) => (
+const App = () => (
   <div className="u-flex u-flex--full u-flex--vertical">
-    <Toolbar className="u-flex__panel" />
+    <SettingsPanel className="u-flex__panel" />
     <TrackList className="u-flex__panel u-flex__panel--grow" />
     <Player className="u-flex__panel" />
   </div>

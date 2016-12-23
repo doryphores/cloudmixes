@@ -1,7 +1,8 @@
 @import "utils",
         "icons",
         "track",
-        "player";
+        "player",
+        "settings";
 
 * {
   box-sizing: border-box;
@@ -31,16 +32,6 @@ body {
   border-radius: 2px;
   border: 1px solid #eee;
   background-color: #fff;
-}
-
-.toolbar {
-  padding: 10px;
-
-  h1 {
-    margin: 0;
-    font-weight: 500;
-    font-size: 20px;
-  }
 }
 
 ::-webkit-scrollbar {
