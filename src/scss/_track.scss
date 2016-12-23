@@ -6,10 +6,7 @@
   position: relative;
   padding: 10px;
   width: auto;
-
-  &:hover {
-    background-color: #fafafa;
-  }
+  transition: background-color .2s;
 
   &::before {
     content: "";
@@ -19,16 +16,22 @@
     right: 10px;
     height: 1px;
     background-color: #eee;
+    transition: all .2s;
   }
 
   &:first-child::before {
     display: none;
   }
 
-  &:hover::before,
-  &:hover + .track::before {
-    left: 0;
-    right: 0;
+  &.track--active,
+  &:hover {
+    background-color: #fafafa;
+
+    &::before,
+    + .track::before {
+      left: 0;
+      right: 0;
+    }
   }
 }
 
@@ -42,6 +45,7 @@
   border: 1px solid #eee;
   cursor: pointer;
 
+  .track--active &,
   &:hover {
     background-color: #ff9100;
   }
@@ -58,23 +62,27 @@
   z-index: 1;
   width: 100%;
   height: 100%;
-  display: block;
+  opacity: 1;
   border-radius: 50%;
   background-size: cover;
+  transition: opacity .2s;
 
+  .track--active &,
   .track__button:hover & {
-    display: none;
+    opacity: 0;
   }
 }
 
 .track__button-icon {
   position: relative;
   z-index: 3;
-  display: none;
-  line-height: 40px;
+  opacity: 0;
+  line-height: 38px;
+  transition: opacity .2s;
 
+  .track--active &,
   .track__button:hover & {
-    display: block;
+    opacity: 1;
   }
 }
 

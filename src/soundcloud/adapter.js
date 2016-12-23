@@ -18,7 +18,11 @@ export const middleware = (store) => (next) => (action) => {
       return next(action);
       break;
     case Actions.SELECT_TRACK:
-      api.loadTrack(action.payload).then(() => next(action));
+      if (action.payload == store.getState().player.trackID) {
+        store.dispatch({ type: Actions.TOGGLE_PLAY });
+      } else {
+        api.loadTrack(action.payload).then(() => next(action));
+      }
       break;
     case Actions.PLAY:
       api.play(store.getState().player.trackID, store.getState().player.currentTime);
