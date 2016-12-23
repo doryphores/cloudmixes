@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 
-import { selectTrack } from '../actions';
+import { SELECT_TRACK } from '../actions';
 import Track from './track';
 
 const TrackList = ({ className, tracks, onTrackSelect }) => (
@@ -19,7 +19,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onTrackSelect: (trackID) => dispatch(selectTrack(trackID))
+    onTrackSelect: (trackID) => dispatch({
+      type: SELECT_TRACK,
+      payload: trackID
+    })
   };
 }
 

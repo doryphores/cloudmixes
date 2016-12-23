@@ -12,18 +12,3 @@ export const SEEK = 'SEEK';
 export const PLAYER_TIME_CHANGED = 'PLAYER_TIME_CHANGED';
 export const PLAYER_STATE_CHANGED = 'PLAYER_STATE_CHANGED';
 
-// Action creators
-
-export function selectTrack(trackID) {
-  return {
-    type: SELECT_TRACK,
-    payload: trackID
-  };
-}
-
-export function loadTracks(payload) {
-  return {
-    type: LOAD_TRACKS,
-    payload: payload
-  };
-}
