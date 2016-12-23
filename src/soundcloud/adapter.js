@@ -6,8 +6,14 @@ const api = new API();
 export const middleware = (store) => (next) => (action) => {
   switch(action.type) {
     case Actions.REFRESH_TRACKS:
-      api.fetchTracks().then((tracks) => {
-        store.dispatch(Actions.loadTracks(tracks));
+      api.fetchTracks(
+        store.getState().settings.username,
+        store.getState().settings.minTrackLength
+      ).then((tracks) => {
+        store.dispatch({
+          type: Actions.LOAD_TRACKS,
+          payload: tracks
+        });
       });
       return next(action);
       break;

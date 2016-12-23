@@ -1,7 +1,6 @@
 import SC from 'soundcloud';
 import EventEmitter from 'events';
 
-const USER_NAME = 'doryphores';
 const CLIENT_ID = '7eff5005846f8ac6bd32d417a55eb5d5';
 
 export default class API extends EventEmitter {
@@ -10,12 +9,12 @@ export default class API extends EventEmitter {
     SC.initialize({ client_id: CLIENT_ID });
   }
 
-  fetchTracks() {
-    return SC.resolve(`https://soundcloud.com/${USER_NAME}`).then(user => {
+  fetchTracks(username, minTrackLength) {
+    return SC.resolve(`https://soundcloud.com/${username}`).then(user => {
       return SC.get(`/users/${user.id}/followings`);
     }).then(users => {
       return Promise.all(users.collection.map(user => {
-        return SC.get(`/users/${user.id}/tracks?duration[from]=${30*60*1000}`);
+        return SC.get(`/users/${user.id}/tracks?duration[from]=${minTrackLength*60*1000}`);
       }));
     }).then(tracks => {
       let allTracks = Array.prototype.concat.apply([], tracks).sort((a, b) => {
@@ -35,7 +34,7 @@ export default class API extends EventEmitter {
         };
       });
       return Promise.resolve(allTracks);
-    });
+    }).catch(err => Promise.reject(err));
   }
 
   loadTrack(trackID, resumeFrom = 0) {
@@ -54,7 +53,7 @@ export default class API extends EventEmitter {
       player.play();
 
       return Promise.resolve();
-    });
+    }).catch(err => Promise.reject(err));
   }
 
   play(trackID, resumeFrom) {
