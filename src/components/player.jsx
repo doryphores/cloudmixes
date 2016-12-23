@@ -6,15 +6,20 @@ import { formatDuration } from '../utils';
 import { PLAY, PAUSE, SEEK } from '../actions';
 import Scrubber from './scrubber';
 
-const Player = ({ onPlay, onPause, onSeek, playing, progress, track, className }) => {
+const Player = ({ onPlay, onPause, onSeek, playing, paused, waiting, progress, track, className }) => {
   if (!track) return null;
   return (
     <div className={classnames("player u-flex u-flex--horizontal", className)}>
-      <div className="player__control u-flex__panel"
+      <div className={buttonClassNames("player__control u-flex__panel", playing, paused, waiting)}
         onClick={playing ? onPause : onPlay}>
-        <i className="material-icons md-36">
+        <i className="player__control-icon material-icons md-36">
           {playing ? "pause" : "play_arrow"}
         </i>
+        <span className="player__control-loader wait-indicator">
+          <span className="wait-indicator__dot" />
+          <span className="wait-indicator__dot" />
+          <span className="wait-indicator__dot" />
+        </span>
       </div>
       <div className="player__meta u-flex__panel u-flex__panel--grow u-flex u-flex--vertical">
         <div className="player__title u-flex__panel">
@@ -35,6 +40,14 @@ const Player = ({ onPlay, onPause, onSeek, playing, progress, track, className }
   );
 };
 
+function buttonClassNames(className, playing, paused, waiting) {
+  return classnames(className, {
+    'player__control--playing': playing,
+    'player__control--paused':  paused,
+    'player__control--waiting': waiting
+  });
+}
+
 function scrubberStyles(progress) {
   return {
     backgroundSize: `${progress * 100}% 100%`
@@ -48,7 +61,9 @@ function mapStateToProps(state) {
     return {
       track: track,
       progress: (state.player.currentTime || 0) / track.duration,
-      playing: state.player.status == 'playing'
+      playing:  ['playing', 'seeking'].includes(state.player.status),
+      paused:   state.player.status == 'paused',
+      waiting:  !['playing', 'paused', 'seeking'].includes(state.player.status)
     };
   }
 

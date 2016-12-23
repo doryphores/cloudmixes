@@ -39,10 +39,14 @@ export default class API extends EventEmitter {
 
   loadTrack(trackID, resumeFrom = 0) {
     return SC.stream(`/tracks/${trackID}`).then(player => {
+      if (this.player) this.player.dispose();
+
       this.player = player;
 
       player.on('time', () => this.emit('time', player.currentTime()));
-      player.on('state-change', (state) => this.emit('state-change', state));
+      player.on('state-change', (state) => {
+        this.emit('state-change', state);
+      });
 
       if (resumeFrom) {
         player.once('play-resume', () => {
