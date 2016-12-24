@@ -44,14 +44,10 @@ export default class API extends EventEmitter {
       this.player = player;
 
       player.on('time', () => this.emit('time', player.currentTime()));
-      player.on('state-change', (state) => {
-        this.emit('state-change', state);
-      });
+      player.on('state-change', this.emit.bind(this, 'state-change'));
 
       if (resumeFrom) {
-        player.once('play-resume', () => {
-          player.seek(resumeFrom);
-        });
+        player.once('play-resume', () => player.seek(resumeFrom));
       }
 
       player.play();

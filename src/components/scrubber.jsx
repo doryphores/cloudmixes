@@ -25,7 +25,7 @@ export default class Scrubber extends React.Component {
   }
 
   progress() {
-    return this.state.scrubbing ? this.state.progress : this.props.progress;
+    return (this.state.scrubbing || this.props.seeking) ? this.state.progress : this.props.progress;
   }
 
   cancelScrub() {

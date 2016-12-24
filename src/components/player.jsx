@@ -6,7 +6,7 @@ import { formatDuration } from '../utils';
 import { PLAY, PAUSE, SEEK } from '../actions';
 import Scrubber from './scrubber';
 
-const Player = ({ onPlay, onPause, onSeek, playing, paused, waiting, progress, track, className }) => {
+const Player = ({ onPlay, onPause, onSeek, playing, paused, waiting, seeking, progress, track, className }) => {
   if (!track) return null;
   return (
     <div className={classnames("player u-flex u-flex--horizontal", className)}>
@@ -28,6 +28,7 @@ const Player = ({ onPlay, onPause, onSeek, playing, paused, waiting, progress, t
         <Scrubber className="player__scrubber u-flex__panel u-flex__panel u-flex__panel--grow"
           progress={progress}
           duration={track.duration}
+          seeking={seeking}
           onSeek={onSeek}>
           <span className="player__scrubber-mask"
             style={{ WebkitMaskBoxImage: `url(${track.waveform_url})` }} />
@@ -63,7 +64,8 @@ function mapStateToProps(state) {
       progress: (state.player.currentTime || 0) / track.duration,
       playing:  ['playing', 'seeking'].includes(state.player.status),
       paused:   state.player.status == 'paused',
-      waiting:  !['playing', 'paused', 'seeking'].includes(state.player.status)
+      seeking:  state.player.status == 'seeking',
+      waiting:  state.player.status == 'loading'
     };
   }
 
