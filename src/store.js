@@ -34,7 +34,11 @@ export function configureStore(...middleware) {
 
 function sanitizeInitialState(state) {
   if (state && state.player) {
-    state.player.status = 'idle';
+    state.player = Object.assign(state.player, {
+      playing: false,
+      seeking: false,
+      waiting: false
+    });
   }
   return state;
 }

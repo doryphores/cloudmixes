@@ -4,71 +4,8 @@
   background-color: #fafafa;
 }
 
-.player__control {
-  position: relative;
-  width: 50px;
-  height: 50px;
-  overflow: hidden;
+.player__button {
   margin: 10px 10px 10px 0;
-  border-radius: 50%;
-  text-align: center;
-  background-color: #ffab40;
-  color: #fff;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #ff9100;
-  }
-
-  &:active {
-    background-color: #ff6d00;
-  }
-}
-
-.player__control-icon {
-  line-height: 50px;
-
-  .player__control--waiting & {
-    display: none;
-  }
-}
-
-.wait-indicator {
-  display: none;
-  text-align: center;
-  line-height: 50px;
-
-  .player__control--waiting & {
-    display: block;
-  }
-}
-
-.wait-indicator__dot {
-  display: inline-block;
-  vertical-align: middle;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background-color: #fff;
-  animation: blink 1.4s infinite both;
-
-  &:nth-child(2) {
-    animation-delay: .2s;
-  }
-
-  &:nth-child(3) {
-    animation-delay: .4s;
-  }
-
-  + .wait-indicator__dot {
-    margin-left: 5px;
-  }
-}
-
-@keyframes blink {
-  0%   { opacity: .2; }
-  20%  { opacity: 1; }
-  100% { opacity: .2; }
 }
 
 .player__meta {

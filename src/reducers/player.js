@@ -5,29 +5,26 @@ import {
 const initialState = {
   trackID: null,
   currentTime: 0,
-  status: 'idle'
+  playing: false,
+  seeking: false,
+  waiting: false
 };
 
 export function player(state = initialState, action) {
   switch (action.type) {
     case SELECT_TRACK:
       if (state.trackID == action.payload) return state;
-      
-      return {
-        trackID: action.payload,
-        currentTime: 0,
-        status: 'idle'
-      };
+
+      return Object.assign({}, initialState, {
+        trackID: action.payload
+      });
     case PLAYER_TIME_CHANGED:
       return Object.assign({}, state, {
         currentTime: action.payload
       });
     case PLAYER_STATE_CHANGED:
-      return Object.assign({}, state, {
-        status: action.payload
-      });
+      return Object.assign({}, state, action.payload);
     default:
       return state;
   }
 }
- 

@@ -1,5 +1,6 @@
 import SC from 'soundcloud';
 import EventEmitter from 'events';
+import { formatDuration } from '../utils';
 
 const CLIENT_ID = '7eff5005846f8ac6bd32d417a55eb5d5';
 
@@ -38,30 +39,40 @@ export default class API extends EventEmitter {
   }
 
   loadTrack(trackID, resumeFrom = 0) {
+    console.log("Loading stream and resuming play from %s", formatDuration(resumeFrom));
     return SC.stream(`/tracks/${trackID}`).then(player => {
       if (this.player) this.player.dispose();
 
       this.player = player;
 
       player.on('time', () => this.emit('time', player.currentTime()));
-      player.on('state-change', this.emit.bind(this, 'state-change'));
+      player.on('state-change', (state) => {
+        this.emit('state-change', {
+          playing: state == 'loading' || player.isPlaying(),
+          waiting: state == 'loading' || player.isBuffering(),
+          seeking: state == 'seeking'
+        });
+      });
 
-      if (resumeFrom) {
-        player.once('play-resume', () => player.seek(resumeFrom));
+      if (resumeFrom > 0) {
+        this.player.once('play-resume', () => this.player.seek(resumeFrom));
       }
 
-      player.play();
+      this.player.play();
 
       return Promise.resolve();
     }).catch(err => Promise.reject(err));
   }
 
   play(trackID, resumeFrom) {
-    if (this.player) this.player.play();
-    else this.loadTrack(trackID, resumeFrom);
+    if (this.player) {
+      console.log("Resuming playback");
+      this.player.play();
+    } else this.loadTrack(trackID, resumeFrom);
   }
 
   pause() {
+    console.log("Pausing playback");
     this.player.pause();
   }
 

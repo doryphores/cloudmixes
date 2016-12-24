@@ -4,6 +4,8 @@ import API from './api';
 const api = new API();
 
 export const middleware = (store) => (next) => (action) => {
+  let player = store.getState().player;
+
   switch(action.type) {
     case Actions.REFRESH_TRACKS:
       api.fetchTracks(
@@ -11,21 +13,22 @@ export const middleware = (store) => (next) => (action) => {
         store.getState().settings.minTrackLength
       ).then((tracks) => {
         store.dispatch({
-          type: Actions.LOAD_TRACKS,
+          type:    Actions.LOAD_TRACKS,
           payload: tracks
         });
       });
       return next(action);
       break;
     case Actions.SELECT_TRACK:
-      if (action.payload == store.getState().player.trackID) {
+      if (action.payload == player.trackID) {
         store.dispatch({ type: Actions.TOGGLE_PLAY });
+        return next(action);
       } else {
         api.loadTrack(action.payload).then(() => next(action));
       }
       break;
     case Actions.PLAY:
-      api.play(store.getState().player.trackID, store.getState().player.currentTime);
+      api.play(player.trackID, player.currentTime);
       return next(action);
       break;
     case Actions.PAUSE:
@@ -33,9 +36,10 @@ export const middleware = (store) => (next) => (action) => {
       return next(action);
       break;
     case Actions.TOGGLE_PLAY:
-      if (!store.getState().player.trackID) return;
-      if (store.getState().player.status == 'playing') store.dispatch({ type: Actions.PAUSE });
-      else store.dispatch({ type: Actions.PLAY });
+      store.dispatch({
+        type: Actions[player.playing ? 'PAUSE' : 'PLAY']
+      });
+      return next(action);
       break;
     case Actions.SEEK:
       api.seek(action.payload);
@@ -49,15 +53,19 @@ export const middleware = (store) => (next) => (action) => {
 export const connectToStore = (store) => {
   api.on('time', (currentTime) => {
     store.dispatch({
-      type: Actions.PLAYER_TIME_CHANGED,
+      type:    Actions.PLAYER_TIME_CHANGED,
       payload: currentTime
     });
   });
 
-  api.on('state-change', (state) => {
+  api.on('state-change', (states) => {
+    console.info(
+      "Player state changed. playing: %s, seeking: %s, waiting: %s",
+      states.playing, states.seeking, states.waiting
+    );
     store.dispatch({
-      type: Actions.PLAYER_STATE_CHANGED,
-      payload: state
+      type:    Actions.PLAYER_STATE_CHANGED,
+      payload: states
     });
   });
 }
