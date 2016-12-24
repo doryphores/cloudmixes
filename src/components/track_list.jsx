@@ -5,14 +5,12 @@ import classnames from 'classnames';
 import { SELECT_TRACK } from '../actions';
 import Track from './track';
 
-const TrackList = ({ className, tracks, selectedTrackID, playing, onTrackSelect }) => (
+const TrackList = ({ className, tracks, selectedTrackID }) => (
   <div className={classnames("track-list", className)}>
     {tracks.map(track => (
       <Track key={track.id}
         track={track}
-        playing={track.id == selectedTrackID && playing}
-        active={track.id == selectedTrackID}
-        onSelect={onTrackSelect} />
+        selected={track.id == selectedTrackID} />
     ))}
   </div>
 );
@@ -20,18 +18,8 @@ const TrackList = ({ className, tracks, selectedTrackID, playing, onTrackSelect 
 function mapStateToProps(state) {
   return {
     tracks:          state.tracks,
-    playing:         state.player.playing,
     selectedTrackID: state.player.trackID
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    onTrackSelect: (trackID) => dispatch({
-      type: SELECT_TRACK,
-      payload: trackID
-    })
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(TrackList);
+export default connect(mapStateToProps)(TrackList);

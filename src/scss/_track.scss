@@ -25,8 +25,7 @@
     display: none;
   }
 
-  &.track--active,
-  &:hover {
+  &.track--selected {
     background-color: #fafafa;
 
     &::before,
@@ -35,29 +34,21 @@
       right: 0;
     }
   }
+}
 
-  &.track--active {
-    background-color: #ffe0b2;
-  }
+.track__thumb {
+  position: relative;
+  width: 40px;
+  height: 40px;
 }
 
 .track__button {
-  position: relative;
-  overflow: hidden;
-  width: 40px;
-  height: 40px;
-  text-align: center;
-  border-radius: 50%;
-  border: 1px solid #eee;
-  cursor: pointer;
+  opacity: 0;
+  transition: opacity .2s;
 
-  .track--active &,
-  &:hover {
-    background-color: #ff9100;
-  }
-
-  &:active {
-    background-color: #ff6d00;
+  .track--selected &,
+  .track__thumb:hover & {
+    opacity: 1;
   }
 }
 
@@ -71,24 +62,15 @@
   opacity: 1;
   border-radius: 50%;
   background-size: cover;
-  transition: opacity .2s;
+  border: 1px solid #eee;
+  transform: scale(1);
+  transition: all .2s;
+  pointer-events: none;
 
-  .track--active &,
-  .track__button:hover & {
+  .track--selected &,
+  .track__thumb:hover & {
     opacity: 0;
-  }
-}
-
-.track__button-icon {
-  position: relative;
-  z-index: 3;
-  opacity: 0;
-  line-height: 38px;
-  transition: opacity .2s;
-
-  .track--active &,
-  .track__button:hover & {
-    opacity: 1;
+    transform: scale(0);
   }
 }
 
