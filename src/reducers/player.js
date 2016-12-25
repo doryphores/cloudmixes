@@ -1,5 +1,5 @@
 import {
-  SELECT_TRACK, PLAYER_TIME_CHANGED, PLAYER_STATE_CHANGED
+  SELECT_TRACK, PLAYER_TIME_CHANGED, PLAYER_STATE_CHANGED, RESTORE
 } from '../actions';
 
 const initialState = {
@@ -24,6 +24,12 @@ export function player(state = initialState, action) {
       });
     case PLAYER_STATE_CHANGED:
       return Object.assign({}, state, action.payload);
+    case RESTORE:
+      return Object.assign(initialState, state, {
+        playing: false,
+        seeking: false,
+        waiting: false
+      });
     default:
       return state;
   }

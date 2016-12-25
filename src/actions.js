@@ -1,5 +1,7 @@
 // Actions
 
+export const RESTORE = 'RESTORE';
+
 export const REFRESH_TRACKS = 'REFRESH_TRACKS';
 export const LOAD_TRACKS = 'LOAD_TRACKS';
 
