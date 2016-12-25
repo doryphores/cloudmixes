@@ -7,7 +7,7 @@ import { formatDuration } from '../utils';
 import { SELECT_TRACK, TOGGLE_PLAY, BLACKLIST_TRACK } from '../actions';
 
 const Track = ({ track, selected, playing, waiting, onButtonClick, onRemoveClick }) => (
-  <div className={trackClassNames(selected, playing)}>
+  <div className={trackClassNames(selected)}>
     <div className="track__thumb u-flex__panel">
       <PlayButton className="track__button"
         size="small"
@@ -23,7 +23,7 @@ const Track = ({ track, selected, playing, waiting, onButtonClick, onRemoveClick
           {track.title}
         </div>
         <div className="u-flex__panel">
-          <span className="material-icons md-18"
+          <span className="track__action material-icons md-18"
             onClick={onRemoveClick}>
             remove_circle
           </span>
@@ -41,10 +41,9 @@ const Track = ({ track, selected, playing, waiting, onButtonClick, onRemoveClick
   </div>
 );
 
-function trackClassNames(selected, playing) {
+function trackClassNames(selected) {
   return classnames('track-list__item track u-flex u-flex--horizontal', {
-    'track--selected': selected,
-    'track--playing':  playing
+    'track--selected': selected
   });
 }
 

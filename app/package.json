@@ -12,6 +12,7 @@
     "format-duration": "^1.0.0",
     "fs-extra": "^1.0.0",
     "react": "^15.4.1",
+    "react-addons-css-transition-group": "^15.4.1",
     "react-dom": "^15.4.1",
     "react-redux": "^5.0.1",
     "redux": "^3.6.0",

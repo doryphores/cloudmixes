@@ -8,7 +8,8 @@
   position: relative;
   padding: 10px;
   width: auto;
-  transition: background-color .2s;
+  transform: translateX(0);
+  transition: transform .2s;
 
   &::before {
     content: "";
@@ -25,15 +26,40 @@
     display: none;
   }
 
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 60px;
+    right: 10px;
+    height: 1px;
+    background-color: #eee;
+    transition: all .2s;
+  }
+
   &.track--selected {
     background-color: #fafafa;
 
     &::before,
-    + .track::before {
+    &::after {
       left: 0;
       right: 0;
     }
   }
+}
+
+.track--enter {
+  z-index: 2;
+  transform: translateX(-100%);
+}
+
+.track--enter-active {
+  transform: translateX(0);
+}
+
+.track--leave {
+  z-index: 2;
+  transform: translateX(-100%);
 }
 
 .track__thumb {
@@ -78,6 +104,15 @@
   width: calc(100% - 50px);
   margin-left: 10px;
   line-height: 20px;
+}
+
+.track__action {
+  color: #9E9E9E;
+  cursor: pointer;
+
+  &:hover {
+    color: inherit;
+  }
 }
 
 .track__title {
