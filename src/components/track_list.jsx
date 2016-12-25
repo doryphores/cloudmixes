@@ -16,8 +16,12 @@ const TrackList = ({ className, tracks, selectedTrackID }) => (
 );
 
 function mapStateToProps(state) {
+  let tracks = state.tracks;
+  if (state.settings.blacklist.length) {
+    tracks = tracks.filter(t => !state.settings.blacklist.includes(t.id));
+  }
   return {
-    tracks:          state.tracks,
+    tracks,
     selectedTrackID: state.player.trackID
   };
 }

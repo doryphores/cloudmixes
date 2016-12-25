@@ -75,26 +75,20 @@
 }
 
 .track__meta {
-  width: calc(100% - 40px);
-}
-
-.track__meta-item {
-  display: block;
-  padding-left: 10px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  width: calc(100% - 50px);
+  margin-left: 10px;
   line-height: 20px;
 }
 
 .track__title {
   width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-size: 14px;
 }
 
 .track__duration {
-  float: right;
-  padding-left: 0;
   font-size: 12px;
   color: rgba(#000, .54);
 }
