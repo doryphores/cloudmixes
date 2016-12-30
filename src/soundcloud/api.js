@@ -1,16 +1,16 @@
-import SC from 'soundcloud';
-import EventEmitter from 'events';
-import { formatDuration } from '../utils';
+import SC from "soundcloud";
+import EventEmitter from "events";
+import { formatDuration } from "../utils";
 
-const CLIENT_ID = '7eff5005846f8ac6bd32d417a55eb5d5';
+const CLIENT_ID = "7eff5005846f8ac6bd32d417a55eb5d5";
 
 export const EVENTS = {
   TRACK: {
-    LOADED:   'TRACK_LOADED'
+    LOADED:   "TRACK_LOADED"
   },
   PLAYER: {
-    TIME_CHANGED:  'PLAYER_TIME_CHANGED',
-    STATE_CHANGED: 'PLAYER_STATE_CHANGED'
+    TIME_CHANGED:  "PLAYER_TIME_CHANGED",
+    STATE_CHANGED: "PLAYER_STATE_CHANGED"
   }
 };
 
@@ -70,10 +70,10 @@ export default class API extends EventEmitter {
       if (startFrom > 0) {
         console.info("Starting playback from %s", formatDuration(startFrom));
 
-        this.player.once('play-resume', () => {
+        this.player.once("play-resume", () => {
           this.player.seek(startFrom);
 
-          this.player.once('play-resume', () => this._listenToPlayerEvents());
+          this.player.once("play-resume", () => this._listenToPlayerEvents());
         });
       } else {
         this._listenToPlayerEvents();
@@ -110,18 +110,18 @@ export default class API extends EventEmitter {
   }
 
   _listenToPlayerEvents() {
-    this.player.on('time', () => {
+    this.player.on("time", () => {
       this.emit(EVENTS.PLAYER.TIME_CHANGED, this.player.currentTime());
     });
 
-    this.player.on('state-change', state => {
+    this.player.on("state-change", state => {
       this.emit(EVENTS.PLAYER.STATE_CHANGED, {
         playing: this.player.isLoading() || this.player.isPlaying(),
         waiting: this.player.isLoading() || this.player.isBuffering(),
-        seeking: state == 'seeking'
+        seeking: state == "seeking"
       });
     });
 
-    this.player.on('finish', () => this.player.seek(0));
+    this.player.on("finish", () => this.player.seek(0));
   }
 }

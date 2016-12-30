@@ -1,10 +1,10 @@
-import React from 'react';
-import classnames from 'classnames';
-import { connect } from 'react-redux';
+import React from "react";
+import classnames from "classnames";
+import { connect } from "react-redux";
 
-import PlayButton from './play_button';
-import { formatDuration } from '../utils';
-import { SELECT_TRACK, TOGGLE_PLAY, BLACKLIST_TRACK } from '../actions';
+import PlayButton from "./play_button";
+import { formatDuration } from "../utils";
+import { TOGGLE_PLAY, BLACKLIST_TRACK } from "../actions";
 
 const Track = ({ track, selected, playing, waiting, onButtonClick, onRemoveClick }) => (
   <div className={trackClassNames(selected)}>
@@ -42,8 +42,8 @@ const Track = ({ track, selected, playing, waiting, onButtonClick, onRemoveClick
 );
 
 function trackClassNames(selected) {
-  return classnames('track-list__item track u-flex u-flex--horizontal', {
-    'track--selected': selected
+  return classnames("track-list__item track u-flex u-flex--horizontal", {
+    "track--selected": selected
   });
 }
 
@@ -64,7 +64,7 @@ function mapDispatchToProps(dispatch, props) {
       type:    BLACKLIST_TRACK,
       payload: props.track.id
     }),
-    onButtonClick: (trackID) => dispatch({
+    onButtonClick: () => dispatch({
       type:    TOGGLE_PLAY,
       payload: props.track.id
     })

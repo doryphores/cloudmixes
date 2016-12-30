@@ -1,5 +1,5 @@
-import * as Actions from '../actions';
-import API, { EVENTS } from './api';
+import * as Actions from "../actions";
+import API, { EVENTS } from "./api";
 
 const api = new API();
 
@@ -17,11 +17,11 @@ export const middleware = store => next => action => {
       });
       break;
     case Actions.TOGGLE_PLAY:
-      let player = store.getState().player;
-      let trackID = action.payload || player.trackID;
-      let currentTime = 0;
+      var player = store.getState().player;
+      var trackID = action.payload || player.trackID;
+      var currentTime = 0;
 
-      if (!action.payload || action.payload == player.trackID) {
+      if (!action.payload || action.payload == player.trackID) {
         currentTime = player.currentTime;
       }
 
@@ -59,4 +59,4 @@ export const connectToStore = store => {
       payload: states
     });
   });
-}
+};

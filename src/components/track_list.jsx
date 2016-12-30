@@ -1,10 +1,9 @@
-import React from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import { connect } from 'react-redux';
-import classnames from 'classnames';
+import React from "react";
+import ReactCSSTransitionGroup from "react-addons-css-transition-group";
+import { connect } from "react-redux";
+import classnames from "classnames";
 
-import { SELECT_TRACK } from '../actions';
-import Track from './track';
+import Track from "./track";
 
 const TrackList = ({ className, tracks, selectedTrackID }) => (
   <ReactCSSTransitionGroup component="div"

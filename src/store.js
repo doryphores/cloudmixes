@@ -1,14 +1,14 @@
-import  { createStore, combineReducers, applyMiddleware } from 'redux';
-import { outputJSONSync, readJSON } from 'fs-extra';
-import path from 'path';
+import  { createStore, combineReducers, applyMiddleware } from "redux";
+import { outputJSONSync, readJSON } from "fs-extra";
+import path from "path";
 
-import * as reducers from './reducers';
-import { RESTORE } from './actions';
+import * as reducers from "./reducers";
+import { RESTORE } from "./actions";
 
 const CACHE_PATH = path.join(
-  require('electron').remote.app.getPath('userData'),
-  'cache',
-  'store.json'
+  require("electron").remote.app.getPath("userData"),
+  "cache",
+  "store.json"
 );
 
 export function configureStore(...middleware) {
@@ -22,7 +22,7 @@ export function configureStore(...middleware) {
           applyMiddleware(...middleware)
         );
 
-        window.addEventListener('beforeunload', () => {
+        window.addEventListener("beforeunload", () => {
           outputJSONSync(CACHE_PATH, store.getState());
         });
 

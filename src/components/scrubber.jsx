@@ -1,6 +1,6 @@
-import React from 'react';
-import classnames from 'classnames';
-import { formatDuration } from '../utils';
+import React from "react";
+import classnames from "classnames";
+import { formatDuration } from "../utils";
 
 export default class Scrubber extends React.Component {
   constructor(props) {
@@ -14,11 +14,11 @@ export default class Scrubber extends React.Component {
   }
 
   componentDidMount() {
-    window.addEventListener('mouseup', this.stopScrubbingBound);
+    window.addEventListener("mouseup", this.stopScrubbingBound);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('mouseup', this.stopScrubbingBound);
+    window.removeEventListener("mouseup", this.stopScrubbingBound);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -30,7 +30,7 @@ export default class Scrubber extends React.Component {
   }
 
   scrubberClassNames() {
-    return classnames('scrubber', this.props.className);
+    return classnames("scrubber", this.props.className);
   }
 
   progress() {

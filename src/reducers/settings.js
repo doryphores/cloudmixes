@@ -1,7 +1,7 @@
-import { SAVE_SETTINGS, BLACKLIST_TRACK, RESTORE } from '../actions';
+import { SAVE_SETTINGS, BLACKLIST_TRACK, RESTORE } from "../actions";
 
 const initialState = {
-  username:       '',
+  username:       "",
   minTrackLength: 30,
   blacklist:      []
 };

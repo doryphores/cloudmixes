@@ -1,8 +1,8 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import classnames from 'classnames';
+import React from "react";
+import { connect } from "react-redux";
+import classnames from "classnames";
 
-import { SAVE_SETTINGS } from '../actions';
+import { SAVE_SETTINGS } from "../actions";
 
 class SettingsPanel extends React.Component {
   constructor(props) {
@@ -10,7 +10,7 @@ class SettingsPanel extends React.Component {
     this.state = {
       username:       props.username,
       minTrackLength: props.minTrackLength,
-      open:           props.username == '' || props.minTrackLength == ''
+      open:           props.username == "" || props.minTrackLength == ""
     };
   }
 
@@ -32,8 +32,8 @@ class SettingsPanel extends React.Component {
   }
 
   classNames() {
-    return classnames('settings', this.props.className, {
-      'settings--open': this.state.open
+    return classnames("settings", this.props.className, {
+      "settings--open": this.state.open
     });
   }
 
@@ -60,7 +60,7 @@ class SettingsPanel extends React.Component {
               pattern="[a-z0-9_\-]+"
               placeholder="username"
               value={this.state.username}
-              onChange={this.handleInputChange.bind(this, 'username')} />
+              onChange={this.handleInputChange.bind(this, "username")} />
           </label>
           <label className="field u-flex__panel">
             <span className="field__label">
@@ -71,14 +71,14 @@ class SettingsPanel extends React.Component {
               required={true}
               pattern="\d+"
               value={this.state.minTrackLength}
-              onChange={this.handleInputChange.bind(this, 'minTrackLength')} />
+              onChange={this.handleInputChange.bind(this, "minTrackLength")} />
           </label>
           <footer className="form-actions">
             <button className="button">Apply</button>
           </footer>
         </form>
       </div>
-    )
+    );
   }
 }
 

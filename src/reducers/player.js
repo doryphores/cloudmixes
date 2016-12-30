@@ -1,7 +1,7 @@
 import {
   TRACK_LOADED, PLAYER_TIME_CHANGED, PLAYER_STATE_CHANGED,
   RESTORE, BLACKLIST_TRACK
-} from '../actions';
+} from "../actions";
 
 const initialState = {
   trackID:     null,

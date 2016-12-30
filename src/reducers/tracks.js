@@ -1,4 +1,4 @@
-import { LOAD_TRACKS } from '../actions';
+import { LOAD_TRACKS } from "../actions";
 
 export function tracks(state = [], action) {
   switch (action.type) {

@@ -1,11 +1,11 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import classnames from 'classnames';
+import React from "react";
+import { connect } from "react-redux";
+import classnames from "classnames";
 
-import { formatDuration } from '../utils';
-import { TOGGLE_PLAY, SEEK } from '../actions';
-import Scrubber from './scrubber';
-import PlayButton from './play_button';
+import { formatDuration } from "../utils";
+import { TOGGLE_PLAY, SEEK } from "../actions";
+import Scrubber from "./scrubber";
+import PlayButton from "./play_button";
 
 const Player = ({ onPlayButtonClick, onSeek, playing, waiting, seeking, progress, track, className }) => {
   if (!track) return null;
@@ -36,12 +36,6 @@ const Player = ({ onPlayButtonClick, onSeek, playing, waiting, seeking, progress
     </div>
   );
 };
-
-function scrubberStyles(progress) {
-  return {
-    backgroundSize: `${progress * 100}% 100%`
-  };
-}
 
 function mapStateToProps(state) {
   let track = findTrack(state.tracks, state.player.trackID);
