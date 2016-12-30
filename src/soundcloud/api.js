@@ -49,20 +49,8 @@ export default class API extends EventEmitter {
     });
   }
 
-  loadTrack(trackID) {
-    console.info("Loading stream");
-
-    this.unloadTrack();
-
-    return SC.stream(`/tracks/${trackID}`).then(player => {
-      global.player = this.player = player;
-
-      console.info("Stream loaded");
-    });
-  }
-
   unloadTrack(trackID) {
-    if (trackID && !this.trackIsLoaded(trackID)) return;
+    if (trackID && !this._trackIsLoaded(trackID)) return;
 
     if (this.player) {
       this.player.dispose();
@@ -70,27 +58,13 @@ export default class API extends EventEmitter {
     }
   }
 
-  listenToPlayer() {
-    this.player.on('time', () => {
-      this.emit(EVENTS.PLAYER.TIME_CHANGED, this.player.currentTime());
-    });
-
-    this.player.on('state-change', (state) => {
-      this.emit(EVENTS.PLAYER.STATE_CHANGED, {
-        playing: this.player.isLoading() || this.player.isPlaying(),
-        waiting: this.player.isLoading() || this.player.isBuffering(),
-        seeking: state == 'seeking'
-      });
-    });
-  }
-
   togglePlay(trackID, startFrom = 0) {
-    if (this.trackIsLoaded(trackID)) {
+    if (this._trackIsLoaded(trackID)) {
       this.player.toggle();
       return;
     }
 
-    this.loadTrack(trackID).then(() => {
+    this._loadTrack(trackID).then(() => {
       this.emit(EVENTS.TRACK.LOADED, trackID);
 
       if (startFrom > 0) {
@@ -99,12 +73,10 @@ export default class API extends EventEmitter {
         this.player.once('play-resume', () => {
           this.player.seek(startFrom);
 
-          this.player.once('play-resume', () => {
-            this.listenToPlayer();
-          });
+          this.player.once('play-resume', () => this._listenToPlayerEvents());
         });
       } else {
-        this.listenToPlayer();
+        this._listenToPlayerEvents();
       }
 
       this.player.play();
@@ -121,7 +93,35 @@ export default class API extends EventEmitter {
     }
   }
 
-  trackIsLoaded(trackID) {
+  _loadTrack(trackID) {
+    console.info("Loading stream");
+
+    this.unloadTrack();
+
+    return SC.stream(`/tracks/${trackID}`).then(player => {
+      this.player = player;
+
+      console.info("Stream loaded");
+    });
+  }
+
+  _trackIsLoaded(trackID) {
     return !!(this.player && this.player.getId() === trackID);
+  }
+
+  _listenToPlayerEvents() {
+    this.player.on('time', () => {
+      this.emit(EVENTS.PLAYER.TIME_CHANGED, this.player.currentTime());
+    });
+
+    this.player.on('state-change', state => {
+      this.emit(EVENTS.PLAYER.STATE_CHANGED, {
+        playing: this.player.isLoading() || this.player.isPlaying(),
+        waiting: this.player.isLoading() || this.player.isBuffering(),
+        seeking: state == 'seeking'
+      });
+    });
+
+    this.player.on('finish', () => this.player.seek(0));
   }
 }

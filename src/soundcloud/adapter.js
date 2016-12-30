@@ -4,8 +4,6 @@ import API, { EVENTS } from './api';
 const api = new API();
 
 export const middleware = store => next => action => {
-  let player = store.getState().player;
-
   switch(action.type) {
     case Actions.REFRESH_TRACKS:
       api.fetchTracks(
@@ -19,6 +17,7 @@ export const middleware = store => next => action => {
       });
       break;
     case Actions.TOGGLE_PLAY:
+      let player = store.getState().player;
       let trackID = action.payload || player.trackID;
       let currentTime = 0;
 
