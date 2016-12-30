@@ -51,20 +51,22 @@ export default class API extends EventEmitter {
 
   loadTrack(trackID) {
     console.info("Loading stream");
-    return SC.stream(`/tracks/${trackID}`).then(player => {
-      this.unloadTrack();
 
-      this.player = player;
+    this.unloadTrack();
+
+    return SC.stream(`/tracks/${trackID}`).then(player => {
+      global.player = this.player = player;
 
       console.info("Stream loaded");
-
-      return Promise.resolve();
     });
   }
 
   unloadTrack(trackID) {
-    if (trackID && this.trackIsLoaded(trackID)) {
+    if (trackID && !this.trackIsLoaded(trackID)) return;
+
+    if (this.player) {
       this.player.dispose();
+      delete this.player;
     }
   }
 
