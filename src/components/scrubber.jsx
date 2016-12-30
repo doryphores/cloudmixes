@@ -3,21 +3,30 @@ import classnames from 'classnames';
 import { formatDuration } from '../utils';
 
 export default class Scrubber extends React.Component {
-  constructor() {
+  constructor(props) {
     super();
     this.state = {
-      progress: 0,
-      scrubbing: false
+      progress:       props.progress,
+      targetProgress: props.progress,
+      scrubbing:      false
     };
-    this.cancelScrubBound = this.cancelScrub.bind(this);
+    this.stopScrubbingBound = this.stopScrubbing.bind(this);
   }
 
   componentDidMount() {
-    window.addEventListener('mouseup', this.cancelScrubBound);
+    window.addEventListener('mouseup', this.stopScrubbingBound);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('mouseup', this.cancelScrubBound);
+    window.removeEventListener('mouseup', this.stopScrubbingBound);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.state.scrubbing && !nextProps.seeking) {
+      this.setState({
+        targetProgress: nextProps.progress
+      });
+    }
   }
 
   scrubberClassNames() {
@@ -25,29 +34,31 @@ export default class Scrubber extends React.Component {
   }
 
   progress() {
-    return (this.state.scrubbing || this.props.seeking) ? this.state.progress : this.props.progress;
+    return (this.state.scrubbing || this.props.seeking)
+      ? this.state.targetProgress
+      : this.props.progress;
   }
 
-  cancelScrub() {
+  stopScrubbing() {
     this.setState({ scrubbing: false });
   }
 
   handleMouseDown(e) {
     this.setState({
-      progress: this.progressFromPosition(e.clientX),
-      scrubbing: true
+      targetProgress: this.progressFromPosition(e.clientX),
+      scrubbing:      true
     });
   }
 
   handleMouseUp() {
-    this.cancelScrub();
-    this.props.onSeek(Math.round(this.state.progress * this.props.duration));
+    this.stopScrubbing();
+    this.props.onSeek(Math.round(this.state.targetProgress * this.props.duration));
   }
 
   handleMouseMove(e) {
     if (!this.state.scrubbing) return;
     this.setState({
-      progress: this.progressFromPosition(e.clientX)
+      targetProgress: this.progressFromPosition(e.clientX)
     });
   }
 

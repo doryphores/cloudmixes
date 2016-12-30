@@ -1,9 +1,9 @@
 import * as Actions from '../actions';
-import API from './api';
+import API, { EVENTS } from './api';
 
 const api = new API();
 
-export const middleware = (store) => (next) => (action) => {
+export const middleware = store => next => action => {
   let player = store.getState().player;
 
   switch(action.type) {
@@ -17,48 +17,47 @@ export const middleware = (store) => (next) => (action) => {
           payload: tracks
         });
       });
-      return next(action);
-      break;
-    case Actions.SELECT_TRACK:
-      if (action.payload == player.trackID) {
-        store.dispatch({ type: Actions.TOGGLE_PLAY });
-        return next(action);
-      } else {
-        api.loadTrack(action.payload).then(() => next(action));
-      }
-      break;
-    case Actions.PLAY:
-      api.play(player.trackID, player.currentTime);
-      return next(action);
-      break;
-    case Actions.PAUSE:
-      api.pause();
-      return next(action);
       break;
     case Actions.TOGGLE_PLAY:
-      store.dispatch({
-        type: Actions[player.playing ? 'PAUSE' : 'PLAY']
-      });
-      return next(action);
+      let trackID = action.payload || player.trackID;
+
+      if (api.trackIsLoaded(trackID)) {
+        // loaded
+        api.togglePlay(trackID);
+      } else if (!action.payload || action.payload == player.trackID) {
+        // selected
+        api.togglePlay(trackID, player.currentTime);
+      } else {
+        api.togglePlay(action.payload);
+      }
+      break;
+    case Actions.BLACKLIST_TRACK:
+      api.unloadTrack(action.payload);
       break;
     case Actions.SEEK:
       api.seek(action.payload);
-      return next(action);
       break;
-    default:
-      return next(action);
   }
+
+  return next(action);
 };
 
 export const connectToStore = (store) => {
-  api.on('time', (currentTime) => {
+  api.on(EVENTS.TRACK.LOADED, (trackID) => {
+    store.dispatch({
+      type:    Actions.TRACK_LOADED,
+      payload: trackID
+    });
+  });
+
+  api.on(EVENTS.PLAYER.TIME_CHANGED, (currentTime) => {
     store.dispatch({
       type:    Actions.PLAYER_TIME_CHANGED,
       payload: currentTime
     });
   });
 
-  api.on('state-change', (states) => {
+  api.on(EVENTS.PLAYER.STATE_CHANGED, (states) => {
     console.info(
       "Player state changed. playing: %s, seeking: %s, waiting: %s",
       states.playing, states.seeking, states.waiting

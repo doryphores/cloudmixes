@@ -65,7 +65,7 @@ function mapDispatchToProps(dispatch, props) {
       payload: props.track.id
     }),
     onButtonClick: (trackID) => dispatch({
-      type:    props.selected ? TOGGLE_PLAY : SELECT_TRACK,
+      type:    TOGGLE_PLAY,
       payload: props.track.id
     })
   };

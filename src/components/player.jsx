@@ -54,7 +54,7 @@ function mapStateToProps(state) {
   }
 
   return Object.assign({}, state.player, {
-    track: null,
+    track:    null,
     progress: 0
   });
 }
