@@ -1,24 +1,24 @@
-const { app, BrowserWindow, Tray, Menu, globalShortcut } = require('electron');
-const Positioner = require('electron-positioner');
-const path = require('path');
+const { app, BrowserWindow, Tray, Menu, globalShortcut } = require("electron");
+const Positioner = require("electron-positioner");
+const path = require("path");
 
 let tray, win, positioner;
 
-app.on('ready', () => {
+app.on("ready", () => {
   // MacOS: Hide the dock icon
   if (app.dock) app.dock.hide();
 
   // ========================================================
   // Tray setup
 
-  tray = new Tray(path.join(__dirname, 'IconTemplate.png'));
+  tray = new Tray(path.join(__dirname, "IconTemplate.png"));
   tray.setToolTip(app.getName());
-  tray.on('click', toggleWindow);
+  tray.on("click", toggleWindow);
 
-  if (process.platform == 'linux') {
+  if (process.platform == "linux") {
     tray.setContextMenu(contextMenu);
   } else {
-    tray.on('right-click', () => tray.popUpContextMenu(contextMenu));
+    tray.on("right-click", () => tray.popUpContextMenu(contextMenu));
   }
 
   // ========================================================
@@ -36,22 +36,22 @@ app.on('ready', () => {
 
   positioner = new Positioner(win);
 
-  win.once('ready-to-show', showWindow);
+  win.once("ready-to-show", showWindow);
 
-  win.on('blur', () => {
+  win.on("blur", () => {
     if (win.webContents.isDevToolsOpened()) return;
-    win.hide()
+    win.hide();
   });
 
-  win.loadURL(`file://${path.join(__dirname, 'index.html')}`);
+  win.loadURL(`file://${path.join(__dirname, "index.html")}`);
 
   // ========================================================
   // Global shortcuts
 
-  app.on('will-quit', () => globalShortcut.unregisterAll());
+  app.on("will-quit", () => globalShortcut.unregisterAll());
 
-  globalShortcut.register('MediaPlayPause', () => {
-    win.webContents.send('togglePlay');
+  globalShortcut.register("MediaPlayPause", () => {
+    win.webContents.send("togglePlay");
   });
 });
 
@@ -61,11 +61,11 @@ app.on('ready', () => {
 
 const contextMenu = Menu.buildFromTemplate([
   {
-    label: 'Refresh',
-    click: () => win.webContents.send('refresh')
+    label: "Refresh",
+    click: () => win.webContents.send("refresh")
   },
-  { type: 'separator' },
-  { role: 'quit' }
+  { type: "separator" },
+  { role: "quit" }
 ]);
 
 
@@ -74,9 +74,9 @@ const contextMenu = Menu.buildFromTemplate([
 
 function showWindow() {
   let { x, y } = {
-    darwin: () => positioner.calculate('trayCenter', tray.getBounds()),
-    win32:  () => positioner.calculate('trayBottomCenter', tray.getBounds()),
-    linux:  () => positioner.calculate('topRight')
+    darwin: () => positioner.calculate("trayCenter", tray.getBounds()),
+    win32:  () => positioner.calculate("trayBottomCenter", tray.getBounds()),
+    linux:  () => positioner.calculate("topRight")
   }[process.platform]();
   win.setPosition(x, y);
   win.show();
