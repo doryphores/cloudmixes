@@ -11,7 +11,7 @@ export const middleware = store => next => action => {
       api.fetchTracks(
         store.getState().settings.username,
         store.getState().settings.minTrackLength
-      ).then((tracks) => {
+      ).then(tracks => {
         store.dispatch({
           type:    Actions.LOAD_TRACKS,
           payload: tracks
@@ -20,16 +20,13 @@ export const middleware = store => next => action => {
       break;
     case Actions.TOGGLE_PLAY:
       let trackID = action.payload || player.trackID;
+      let currentTime = 0;
 
-      if (api.trackIsLoaded(trackID)) {
-        // loaded
-        api.togglePlay(trackID);
-      } else if (!action.payload || action.payload == player.trackID) {
-        // selected
-        api.togglePlay(trackID, player.currentTime);
-      } else {
-        api.togglePlay(action.payload);
+      if (!action.payload || action.payload == player.trackID) {
+        currentTime = player.currentTime;
       }
+
+      api.togglePlay(trackID, currentTime);
       break;
     case Actions.BLACKLIST_TRACK:
       api.unloadTrack(action.payload);
@@ -42,26 +39,22 @@ export const middleware = store => next => action => {
   return next(action);
 };
 
-export const connectToStore = (store) => {
-  api.on(EVENTS.TRACK.LOADED, (trackID) => {
+export const connectToStore = store => {
+  api.on(EVENTS.TRACK.LOADED, trackID => {
     store.dispatch({
       type:    Actions.TRACK_LOADED,
       payload: trackID
     });
   });
 
-  api.on(EVENTS.PLAYER.TIME_CHANGED, (currentTime) => {
+  api.on(EVENTS.PLAYER.TIME_CHANGED, currentTime => {
     store.dispatch({
       type:    Actions.PLAYER_TIME_CHANGED,
       payload: currentTime
     });
   });
 
-  api.on(EVENTS.PLAYER.STATE_CHANGED, (states) => {
-    console.info(
-      "Player state changed. playing: %s, seeking: %s, waiting: %s",
-      states.playing, states.seeking, states.waiting
-    );
+  api.on(EVENTS.PLAYER.STATE_CHANGED, states => {
     store.dispatch({
       type:    Actions.PLAYER_STATE_CHANGED,
       payload: states
