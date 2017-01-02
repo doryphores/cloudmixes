@@ -1,6 +1,7 @@
 const { app, BrowserWindow, Tray, Menu, globalShortcut } = require("electron");
 const Positioner = require("electron-positioner");
 const path = require("path");
+const Player = require("mpris-service");
 
 let tray, win, positioner;
 
@@ -51,6 +52,49 @@ app.on("ready", () => {
   app.on("will-quit", () => globalShortcut.unregisterAll());
 
   globalShortcut.register("MediaPlayPause", () => {
+    win.webContents.send("togglePlay");
+  });
+
+  var mprisPlayer = Player({
+    canRaise: true,
+    name: "cloudmixes",
+    identity: "Cloud mixes",
+    desktopEntry: "cloudmixes",
+    supportedInterfaces: ["player"],
+    supportedUriSchemes: ["file"],
+    supportedMimeTypes: ["audio/mpeg", "application/ogg"]
+  });
+
+  mprisPlayer.canControl = true;
+
+  mprisPlayer.play = function (trackid, length, artwork, title, artist) {
+    length = 0; // UNSUPPORTED
+
+    mprisPlayer.metadata = {
+      "mpris:trackid": mprisPlayer.objectPath("track/" + trackid),
+      "mpris:length": length,
+      "mpris:artUrl": artwork,
+      "xesam:title": title,
+      "xesam:album": "",
+      "xesam:artist": artist
+    };
+
+    // Tell dbus/mpris that we're currently playing.
+    mprisPlayer.playbackStatus = "Playing";
+  }
+
+  mprisPlayer.pause = function() {
+    mprisPlayer.playbackStatus = "Paused";
+  };
+
+  mprisPlayer.stop = function() {
+    mprisPlayer.playbackStatus = "Stopped";
+  };
+
+  mprisPlayer.playbackStatus = mprisPlayer.playbackStatus || "Stopped";
+
+  mprisPlayer.on("playpause", function() {
+    console.log('HELLO');
     win.webContents.send("togglePlay");
   });
 });

@@ -22,6 +22,12 @@ core-js@^1.0.0:
   version "1.2.7"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
 
+dbus@^0.2.11, dbus@^0.2.20:
+  version "0.2.20"
+  resolved "https://registry.yarnpkg.com/dbus/-/dbus-0.2.20.tgz#5a1832915f465331726c8bb79f513f62c4ad79e3"
+  dependencies:
+    nan "^2.1.0"
+
 electron-positioner@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/electron-positioner/-/electron-positioner-3.0.0.tgz#1a3b75c9cc1e29dd37c663b23fd876d4ffab9996"
@@ -133,6 +139,16 @@ mime@>=1.2.9:
 minimist@~0.0.1:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.10.tgz#de3f98543dbf96082be48ad1a0c7cda836301dcf"
+
+mpris-service@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/mpris-service/-/mpris-service-1.1.1.tgz#f6a8d1ff0ccf8db406d7e892091a7a694d0c04b6"
+  dependencies:
+    dbus "^0.2.11"
+
+nan@^2.1.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/nan/-/nan-2.5.0.tgz#aa8f1e34531d807e9e27755b234b4a6ec0c152a8"
 
 node-fetch@^1.0.1:
   version "1.6.3"
