@@ -73,13 +73,21 @@ const contextMenu = Menu.buildFromTemplate([
 // Helpers
 
 function showWindow() {
-  let { x, y } = {
-    darwin: () => positioner.calculate("trayCenter", tray.getBounds()),
-    win32:  () => positioner.calculate("trayBottomCenter", tray.getBounds()),
-    linux:  () => positioner.calculate("topRight")
-  }[process.platform]();
-  win.setPosition(x, y);
+  positionWindow();
   win.show();
+}
+
+function positionWindow() {
+  if (process.platform == "darwin") {
+    let { x, y } = positioner.calculate("trayCenter", tray.getBounds());
+    win.setPosition(x, y + 5);
+  } else if (process.platform == "win32") {
+    let { x, y } = positioner.calculate("trayBottomCenter", tray.getBounds());
+    win.setPosition(x, y - 5);
+  } else if (process.platform == "linux") {
+    let { x, y } = positioner.calculate("topRight");
+    win.setPosition(x - 5, y + 5);
+  }
 }
 
 function toggleWindow() {
