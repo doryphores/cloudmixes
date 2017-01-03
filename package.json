@@ -13,7 +13,7 @@
     "watch-js": "babel src --source-maps --watch --out-dir app/js",
     "build-css": "node-sass src/scss --output app/css",
     "watch-css": "node-sass --source-map app/css --watch src/scss --output app/css",
-    "lint": "eslint {src,app/index.js} --ext js,jsx"
+    "test": "standard src/**/*.js"
   },
   "dependencies": {
     "babel-cli": "^6.18.0",
@@ -22,9 +22,8 @@
     "chokidar": "^1.6.1",
     "electron-packager": "^8.4.0",
     "electron-prebuilt": "^1.4.12",
-    "eslint": "^3.12.2",
-    "eslint-plugin-react": "^6.8.0",
-    "node-sass": "^4.0.0"
+    "node-sass": "^4.0.0",
+    "standard": "^8.6.0"
   },
   "babel": {
     "presets": [
