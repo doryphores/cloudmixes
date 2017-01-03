@@ -5,7 +5,7 @@
   "description": "Browse and listen to your Soundcloud mixes",
   "author": "Martin Laine <martin.laine@gmail.com>",
   "license": "MIT",
-  "main": "index.js",
+  "main": "js/index.js",
   "dependencies": {
     "classnames": "^2.2.5",
     "electron-positioner": "^3.0.0",

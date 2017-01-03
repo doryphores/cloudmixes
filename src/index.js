@@ -1,6 +1,6 @@
-const { app, BrowserWindow, Tray, Menu, globalShortcut } = require('electron')
-const Positioner = require('electron-positioner')
-const path = require('path')
+import { app, BrowserWindow, Tray, Menu, globalShortcut } from 'electron'
+import Positioner from 'electron-positioner'
+import path from 'path'
 
 let tray, win, positioner
 
@@ -11,7 +11,7 @@ app.on('ready', () => {
   // ========================================================
   // Tray setup
 
-  tray = new Tray(path.join(__dirname, 'IconTemplate.png'))
+  tray = new Tray(path.join(app.getAppPath(), 'IconTemplate.png'))
   tray.setToolTip(app.getName())
   tray.on('click', toggleWindow)
 
@@ -43,7 +43,7 @@ app.on('ready', () => {
     win.hide()
   })
 
-  win.loadURL(`file://${path.join(__dirname, 'index.html')}`)
+  win.loadURL(`file://${path.join(app.getAppPath(), 'index.html')}`)
 
   // ========================================================
   // Global shortcuts
