@@ -1,10 +1,10 @@
-import { LOAD_TRACKS } from "../actions";
+import { LOAD_TRACKS } from '../actions'
 
-export function tracks(state = [], action) {
+export function tracks (state = [], action) {
   switch (action.type) {
     case LOAD_TRACKS:
-      return action.payload;
+      return action.payload
     default:
-      return state;
+      return state
   }
 }

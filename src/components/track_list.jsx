@@ -1,36 +1,36 @@
-import React from "react";
-import ReactCSSTransitionGroup from "react-addons-css-transition-group";
-import { connect } from "react-redux";
-import classnames from "classnames";
+import React from 'react'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import { connect } from 'react-redux'
+import classnames from 'classnames'
 
-import Track from "./track";
+import Track from './track'
 
 const TrackList = ({ className, tracks, selectedTrackID }) => (
-  <ReactCSSTransitionGroup component="div"
-      className={classnames("track-list", className)}
-      transitionName="track-"
-      transitionEnterTimeout={200}
-      transitionLeaveTimeout={200}>
+  <ReactCSSTransitionGroup component='div'
+    className={classnames('track-list', className)}
+    transitionName='track-'
+    transitionEnterTimeout={200}
+    transitionLeaveTimeout={200}>
     {tracks.map(track => (
       <Track key={track.id}
         track={track}
-        selected={track.id == selectedTrackID} />
+        selected={track.id === selectedTrackID} />
     ))}
   </ReactCSSTransitionGroup>
-);
+)
 
-function mapStateToProps(state) {
+function mapStateToProps (state) {
   return {
-    tracks:          filterTracks(state),
+    tracks: filterTracks(state),
     selectedTrackID: state.player.trackID
-  };
+  }
 }
 
-function filterTracks(state) {
-  let tracks = state.tracks;
-  return (state.settings.blacklist.length == 0)
+function filterTracks (state) {
+  let tracks = state.tracks
+  return (state.settings.blacklist.length === 0)
     ? state.tracks
-    : tracks.filter(t => !state.settings.blacklist.includes(t.id));
+    : tracks.filter(t => !state.settings.blacklist.includes(t.id))
 }
 
-export default connect(mapStateToProps)(TrackList);
+export default connect(mapStateToProps)(TrackList)
