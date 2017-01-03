@@ -59,4 +59,15 @@ export const connectToStore = store => {
       payload: states
     });
   });
+
+  api.on(EVENTS.PLAYER.TRACK_ENDED, () => {
+    let trackID = store.getState().player.trackID;
+    let tracks = store.getState().tracks;
+    let trackIndex = tracks.findIndex(t => t.id == trackID) + 1;
+
+    store.dispatch({
+      type:    Actions.TOGGLE_PLAY,
+      payload: tracks[trackIndex < tracks.length ? trackIndex : 0].id
+    });
+  });
 };

@@ -10,7 +10,8 @@ export const EVENTS = {
   },
   PLAYER: {
     TIME_CHANGED:  "PLAYER_TIME_CHANGED",
-    STATE_CHANGED: "PLAYER_STATE_CHANGED"
+    STATE_CHANGED: "PLAYER_STATE_CHANGED",
+    TRACK_ENDED:   "PLAYER_TRACK_ENDED"
   }
 };
 
@@ -122,6 +123,9 @@ export default class API extends EventEmitter {
       });
     });
 
-    this.player.on("finish", () => this.player.seek(0));
+    this.player.on("finish", () => {
+      this.player.seek(0);
+      this.emit(EVENTS.PLAYER.TRACK_ENDED);
+    });
   }
 }
