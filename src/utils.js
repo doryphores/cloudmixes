@@ -1,5 +1,5 @@
-import format from "format-duration";
+import format from 'format-duration'
 
-export function formatDuration(duration) {
-  return format(duration);
+export function formatDuration (duration) {
+  return format(duration)
 }

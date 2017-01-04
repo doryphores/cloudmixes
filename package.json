@@ -13,7 +13,7 @@
     "watch-js": "babel src --source-maps --watch --out-dir app/js",
     "build-css": "node-sass src/scss --output app/css",
     "watch-css": "node-sass --source-map app/css --watch src/scss --output app/css",
-    "test": "standard src/**/*.{js,jsx} --verbose | snazzy"
+    "test": "standard 'src/**/*.{js,jsx}' --verbose | snazzy"
   },
   "dependencies": {
     "babel-cli": "^6.18.0",
