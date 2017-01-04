@@ -1,13 +1,68 @@
-import { app, BrowserWindow, Tray, Menu, globalShortcut } from 'electron'
-import Positioner from 'electron-positioner'
-import path from 'path'
+const {
+  app, BrowserWindow, Tray, Menu, globalShortcut
+} = require('electron')
+const Positioner = require('electron-positioner')
+const path = require('path')
+const { readJSON, outputJSON } = require('fs-extra')
 
 let tray, win, positioner
 
+const CONFIG_PATH = path.join(
+  app.getPath('userData'),
+  'config.json'
+)
+
+const CLIENT_ID = '7eff5005846f8ac6bd32d417a55eb5d5'
+
 app.on('ready', () => {
   // MacOS: Hide the dock icon
-  if (app.dock) app.dock.hide()
+  // if (app.dock) app.dock.hide()
 
+  readJSON(CONFIG_PATH, (err, data) => {
+    if (!err && data.client_id && data.oauth_token) {
+      startApp()
+    } else {
+      authenticateUser()
+    }
+  })
+})
+
+function authenticateUser () {
+  let connectURL = 'https://soundcloud.com/connect?' +
+    `client_id=${CLIENT_ID}` +
+    '&display=popup&response_type=token' +
+    '&redirect_uri=cloudplayer%3A%2F%2Fcallback.html'
+
+  const authWindow = new BrowserWindow({
+    width: 500,
+    height: 500,
+    frame: false,
+    resizeable: false,
+    show: false
+  })
+
+  authWindow.once('ready-to-show', () => {
+    let positioner = new Positioner(authWindow)
+    positioner.move('center')
+    authWindow.show()
+  })
+
+  authWindow.loadURL(connectURL)
+
+  authWindow.webContents.on('did-get-redirect-request', (_e, _oldUrl, newUrl) => {
+    let token = newUrl.match(/access_token=([^&]+)/)[1]
+
+    outputJSON(CONFIG_PATH, {
+      client_id: CLIENT_ID,
+      oauth_token: token
+    }, () => {
+      startApp()
+      authWindow.destroy()
+    })
+  })
+}
+
+function startApp () {
   // ========================================================
   // Tray setup
 
@@ -27,7 +82,6 @@ app.on('ready', () => {
   win = new BrowserWindow({
     width: 500,
     height: 400,
-    skipTaskbar: true,
     transparent: true,
     frame: false,
     resizeable: false,
@@ -53,7 +107,7 @@ app.on('ready', () => {
   globalShortcut.register('MediaPlayPause', () => {
     win.webContents.send('togglePlay')
   })
-})
+}
 
 // ==========================================================
 // Tray context menu

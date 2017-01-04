@@ -1,13 +1,21 @@
+import { remote } from 'electron'
+import path from 'path'
+import { readJSONSync } from 'fs-extra'
+
 import * as Actions from '../actions'
 import API, { EVENTS } from './api'
 
-const api = new API()
+let api
+
+const CONFIG_PATH = path.join(
+  remote.app.getPath('userData'),
+  'config.json'
+)
 
 export const middleware = store => next => action => {
   switch (action.type) {
     case Actions.REFRESH_TRACKS:
       api.fetchTracks(
-        store.getState().settings.username,
         store.getState().settings.minTrackLength
       ).then(tracks => {
         store.dispatch({
@@ -39,6 +47,8 @@ export const middleware = store => next => action => {
 }
 
 export const connectToStore = store => {
+  api = new API(readJSONSync(CONFIG_PATH))
+
   api.on(EVENTS.TRACK.LOADED, trackID => {
     store.dispatch({
       type: Actions.TRACK_LOADED,

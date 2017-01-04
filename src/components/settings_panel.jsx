@@ -8,16 +8,14 @@ class SettingsPanel extends React.Component {
   constructor (props) {
     super()
     this.state = {
-      username: props.username,
       minTrackLength: props.minTrackLength,
-      open: props.username === '' || props.minTrackLength === ''
+      open: props.minTrackLength === ''
     }
   }
 
   handleSubmit (e) {
     e.preventDefault()
     this.props.onSubmit({
-      username: this.state.username,
       minTrackLength: this.state.minTrackLength
     })
     this.toggle()
@@ -52,16 +50,6 @@ class SettingsPanel extends React.Component {
         </header>
         <form className='settings__panel u-flex u-flex--vertical'
           onSubmit={this.handleSubmit.bind(this)}>
-          <label className='field u-flex__panel'>
-            <span className='field__label'>Your SoundCloud username</span>
-            <input className='field__input'
-              type='text'
-              required
-              pattern='[a-z0-9_\-]+'
-              placeholder='username'
-              value={this.state.username}
-              onChange={this.handleInputChange.bind(this, 'username')} />
-          </label>
           <label className='field u-flex__panel'>
             <span className='field__label'>
               Minimum SoundCloud track length (in minutes)

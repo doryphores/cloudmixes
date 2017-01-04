@@ -1,7 +1,6 @@
 import { SAVE_SETTINGS, BLACKLIST_TRACK, RESTORE } from '../actions'
 
 const initialState = {
-  username: '',
   minTrackLength: 30,
   blacklist: []
 }

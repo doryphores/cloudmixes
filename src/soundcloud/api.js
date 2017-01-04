@@ -2,8 +2,6 @@ import SC from 'soundcloud'
 import EventEmitter from 'events'
 import { formatDuration } from '../utils'
 
-const CLIENT_ID = '7eff5005846f8ac6bd32d417a55eb5d5'
-
 export const EVENTS = {
   TRACK: {
     LOADED: 'TRACK_LOADED'
@@ -16,37 +14,50 @@ export const EVENTS = {
 }
 
 export default class API extends EventEmitter {
-  constructor () {
+  constructor (config) {
     super()
-    SC.initialize({ client_id: CLIENT_ID })
+    SC.initialize(config)
   }
 
-  fetchTracks (username, minTrackLength) {
-    return SC.resolve(`https://soundcloud.com/${username}`).then(user => {
-      return SC.get(`/users/${user.id}/followings`)
-    }).then(users => {
-      return Promise.all(users.collection.map(user => {
-        return SC.get(`/users/${user.id}/tracks?duration[from]=${minTrackLength * 60 * 1000}`)
-      }))
-    }).then(tracks => {
-      let allTracks = Array.prototype.concat.apply([], tracks).sort((a, b) => {
-        if (a.created_at === b.created_at) return 0
-        return a.created_at < b.created_at ? 1 : -1
-      }).map(t => {
+  fetchTracks (minTrackLength) {
+    let minDuration = minTrackLength * 60 * 1000
+
+    return SC.get('/me/activities/tracks/affiliated', {
+      limit: 100
+    }).then(({ collection }) => {
+      console.log('BEFORE FILTER')
+      let trackIDSet = new Set()
+
+      let tracks = collection.filter(({ type, origin }) => {
+        let isTrack = type.indexOf('track') === 0 && origin.duration > minDuration
+        if (!isTrack) return false
+        if (trackIDSet.has(origin.id)) return false
+        trackIDSet.add(origin.id)
+        return true
+      })
+
+      console.log('AFTER FILTER')
+
+      console.log(tracks)
+
+      tracks = tracks.map(({ origin }) => {
+        console.log('Hello')
         return {
-          id: t.id,
-          created_at: t.created_at,
-          duration: t.duration,
-          title: t.title,
-          permalink_url: t.permalink_url,
-          artwork_url: t.artwork_url,
-          waveform_url: t.waveform_url,
-          stream_url: t.stream_url,
-          username: t.user.username
+          id: origin.id,
+          created_at: origin.created_at,
+          duration: origin.duration,
+          title: origin.title,
+          permalink_url: origin.permalink_url,
+          artwork_url: origin.artwork_url,
+          waveform_url: origin.waveform_url,
+          stream_url: origin.stream_url,
+          username: origin.user.username
         }
       })
 
-      return Promise.resolve(allTracks)
+      console.log(tracks)
+
+      return Promise.resolve(tracks)
     })
   }
 
