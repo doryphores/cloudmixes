@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+
+PATH=$PATH:./node_modules/.bin
+
+# Build JS and CSS with source maps
+babel src --source-maps --out-dir app/js
+node-sass --source-map app/css src/scss --output app/css
+
+# Rebuild JS and CSS when changed and start app
+babel src --source-maps --watch --skip-initial-build --out-dir app/js & \
+node-sass --source-map app/css --watch src/scss --output app/css & \
+if [[ `uname -s` == 'Linux' ]]; then
+  electron --enable-transparent-visuals --disable-gpu app
+else
+  electron app
+fi

@@ -11,7 +11,7 @@ app.on('ready', () => {
   // ========================================================
   // Tray setup
 
-  tray = new Tray(path.join(app.getAppPath(), 'IconTemplate.png'))
+  tray = new Tray(path.join(app.getAppPath(), 'static', 'IconTemplate.png'))
   tray.setToolTip(app.getName())
   tray.on('click', toggleWindow)
 
@@ -43,7 +43,7 @@ app.on('ready', () => {
     win.hide()
   })
 
-  win.loadURL(`file://${path.join(app.getAppPath(), 'index.html')}`)
+  win.loadURL(`file://${path.join(app.getAppPath(), 'static', 'index.html')}`)
 
   // ========================================================
   // Global shortcuts
