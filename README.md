@@ -11,8 +11,14 @@ Prerequisites:
 - [`node`](https://nodejs.org/en/)
 - [`yarn`](https://yarnpkg.com/)
 
-With `yarn` installed, run the following in the the project root:
+With `yarn` installed, run the following in the project root:
 
 ```
 yarn install
+```
+
+To start the app:
+
+```
+yarn start
 ```
